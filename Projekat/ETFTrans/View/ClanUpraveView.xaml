@@ -1,0 +1,106 @@
+﻿<Window Name="ClanUpraveWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:ETFTrans.ViewModel" xmlns:Model="clr-namespace:ETFTrans.Model" x:Class="ETFTrans.View.ClanUpraveView"
+        Title="ClanUpraveView" Height="489.552" Width="1126.671">
+    <Grid Margin="0,0,-8,-4" Cursor="">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.DataContext>
+            <ViewModel:ClanUpraveViewModel x:Name="clanUpraveViewModel"/>
+        </Grid.DataContext>
+        <TabControl Height="445" VerticalAlignment="Top" Margin="0,20,0,-2" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="1127">
+            <TabItem Header="Autobusi" IsSelected="{Binding TabAutobusiSelected}" Margin="0,0,-4,-2">
+                <Grid Background="#FFE5E5E5" Margin="0,-61,-333,-21">
+                    <GroupBox Header="Dodavanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,68,0,0" Height="340" Width="400">
+                        <TextBox HorizontalAlignment="Left" Height="23" Margin="150,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding MarkaAutobusa}" RenderTransformOrigin="0.624,0.043"/>
+                    </GroupBox>
+                    <Label Content="Marka:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="102,128,0,0"/>
+                    <Label Content="Datum proizvodnje:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,173,0,0"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="121" Margin="172,219,0,0" Text="{Binding BrojRaspolozivihMjestaAutobusa}"/>
+                    <Label Content="Br. raspolozivih mjesta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,216,0,0"/>
+                    <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,263,0,0" Width="121" SelectedDate="{Binding DatumRegistracijeAutobusa}"/>
+                    <Label Content="Datum registracije:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,262,0,0"/>
+                    <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,175,0,0" Width="121" IsTodayHighlighted="True" SelectedDateFormat="Short" SelectedDate="{Binding DatumProizvodnjeAutobusa}"/>
+                    <Button Content="Dodaj autobus" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="198,354,0,0" Command="{Binding BtnDodajAutobus}"/>
+                    <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="476,68,0,0" Height="340" Width="568">
+                        <Button Content="Izmjeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="69" Margin="398,294,0,0" Command="{Binding BtnIzmjeniAutobus}"/>
+                    </GroupBox>
+                    <StatusBar HorizontalAlignment="Left" Height="38" VerticalAlignment="Top" Width="1117" Margin="0,459,0,0">
+                        <StatusBarItem Content="{Binding StatusBarText}" Height="32" VerticalAlignment="Top" Background="#FFE0DEDE" Foreground="#FFF50808" Margin="0,-14,0,0" Width="1120"/>
+                    </StatusBar>
+                    <DockPanel Margin="592,-14,322,257">
+                        <Grid Width="540">
+                            <DataGrid RenderTransformOrigin="39.417,15.615" AutoGenerateColumns="False" ItemsSource="{Binding DataGridAutobusi}" SelectedItem="{Binding SelectedAutobusInDataGrid}" Margin="-107,104,95,-110">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Marka" Binding="{Binding marka}"/>
+                                    <DataGridTextColumn Header="Datum Registracije" Binding="{Binding datumRegistracije}"/>
+                                    <DataGridTextColumn Header="Registracija" Binding="{Binding registracija}"/>
+                                    <DataGridTextColumn Header="Datum Proizvodnje" Binding="{Binding datumProizvodnje}"/>
+                                    <DataGridTextColumn Header="Broj Raspolozivih Mjesta" Binding="{Binding brojRaspolozivihMjesta}"/>
+                                    <DataGridTextColumn Header="Vozac" Binding="{Binding vozac.ime}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </DockPanel>
+                    <Button Content="Obrisi" HorizontalAlignment="Left" Margin="956,378,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BtnObrisiAutobus}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="173,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding RegistracijaAutobusa}"/>
+                    <Label Content="Registracija:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="75,301,0,0"/>
+                    <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Linije" HorizontalAlignment="Left" Width="43" IsSelected="{Binding LinijeTabSelected}">
+                <Grid Background="#FFE5E5E5" Margin="0,-26,-9,-1">
+                    <GroupBox Header="Dodavanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="25,24,0,0" Height="372" Width="668">
+                        <TextBox x:Name="vrPolaskaTextBox" HorizontalAlignment="Left" Height="23" Margin="103,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding VrijemePolaskaLinije}"/>
+                    </GroupBox>
+                    <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="134,121,0,0" Text="{Binding VrijemeDolaskaLinije}"/>
+                    <GroupBox Header="Dani vožnje&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="134,160,0,0" Height="162" Width="120">
+                        <CheckBox Content="Utorak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" IsChecked="{Binding daniVoznjeLinije.uto}"/>
+                    </GroupBox>
+                    <CheckBox Content="Ponedjeljak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,183,0,0" Width="85" IsChecked="{Binding daniVoznjeLinije.pon}"/>
+                    <CheckBox Content="Srijeda" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,222,0,0" IsChecked="{Binding daniVoznjeLinije.sri}"/>
+                    <CheckBox Content="Četvrtak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,242,0,0" IsChecked="{Binding daniVoznjeLinije.cet}"/>
+                    <CheckBox Content="Petak" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,262,0,0" IsChecked="{Binding daniVoznjeLinije.pet}"/>
+                    <CheckBox Content="Subota" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,282,0,0" IsChecked="{Binding daniVoznjeLinije.sub}"/>
+                    <CheckBox Content="Nedjelja" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="150,302,0,0" IsChecked="{Binding daniVoznjeLinije.ned}"/>
+
+                    <Label Content="Vrijeme polaska:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,79,0,0"/>
+                    <Label Content="Vrijeme dolaska:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="34,118,0,0"/>
+                    <GroupBox Header="Autobusi" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="282,74,0,0" Height="271" Width="196">
+                        <ListBox HorizontalAlignment="Left" Height="214" VerticalAlignment="Top" Width="186" Margin="0,0,-2,0" ItemsSource="{Binding ListAutobusi}" DisplayMemberPath="marka" SelectedItem="{Binding SelectedAutobusZaLiniju}"/>
+                    </GroupBox>
+                    <Button Content="Dodaj autobus" HorizontalAlignment="Left" VerticalAlignment="Top" Width="98" Margin="371,316,0,0" Command="{Binding BtnDodajAutobusZaLiniju}"/>
+                    <GroupBox Header="Stanice" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="496,74,0,0" Height="271" Width="184">
+                        <ListBox HorizontalAlignment="Left" Height="212" VerticalAlignment="Top" Width="174" Margin="0,0,-2,0" ItemsSource="{Binding ListStanica}" DisplayMemberPath="nazivGrada" SelectedItem="{Binding SelectedStanicaZaLiniju}"/>
+                    </GroupBox>
+                    <Button Content="Dodaj stanicu" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="593,316,0,0" Command="{Binding BtnDodajStanicuZaLiniju}"/>
+                    <Button Content="Nova stanica" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="513,316,0,0" Command="{Binding BtnDodajNovuStanicu}"/>
+                    <Button Content="Dodaj liniju" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="605,361,0,0" Command="{Binding BtnDodajLiniju}"/>
+                    <GroupBox Header="GroupBox" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="698,24,0,0" Height="372" Width="413">
+                        <DataGrid HorizontalAlignment="Left" VerticalAlignment="Top" Height="305" Width="382" Margin="10,10,0,0" ItemsSource="{Binding DataGridLinije}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLinija}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Odredište" Binding="{Binding odredisteLinije}"/>
+                                <DataGridTextColumn Header="Cijena" Binding="{Binding cijenaZaGlavnoOdrediste}"/>
+                                <DataGridTextColumn Header="Vrijeme polaska" Binding="{Binding vrijemePolaska}"/>
+                                <DataGridTextColumn Header="Vrijeme dolaska" Binding="{Binding vrijemeDolaska}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <Button Content="Obrisi liniju" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="1021,366,0,0" Command="{Binding BtnIzbrisiLiniju}"/>
+                    <Button Content="Prikazi stanice" HorizontalAlignment="Left" Margin="930,366,0,0" VerticalAlignment="Top" Width="86" Command="{Binding BtnPrikaziStaniceLinije}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Menu HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="1123" Grid.ColumnSpan="2">
+            <MenuItem Header="Opcije">
+                <MenuItem Header="Odjava" HorizontalAlignment="Left" Width="121" Command="{Binding BtnOdjava}"/>
+            </MenuItem>
+        </Menu>
+
+    </Grid>
+</Window>
