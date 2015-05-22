@@ -34,7 +34,7 @@
                     </StatusBar>
                     <DockPanel Margin="592,-14,322,257">
                         <Grid Width="540">
-                            <DataGrid RenderTransformOrigin="39.417,15.615" AutoGenerateColumns="False" ItemsSource="{Binding DataGridAutobusi}" SelectedItem="{Binding SelectedAutobusInDataGrid}" Margin="-107,104,95,-110">
+                            <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding DataGridAutobusi}" SelectedItem="{Binding SelectedAutobusInDataGrid}" Margin="-107,104,95,-110">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Marka" Binding="{Binding marka}"/>
                                     <DataGridTextColumn Header="Datum Registracije" Binding="{Binding datumRegistracije}"/>
@@ -84,10 +84,10 @@
                     <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="698,24,0,0" Height="372" Width="413">
                         <DataGrid HorizontalAlignment="Left" VerticalAlignment="Top" Height="305" Width="382" Margin="10,10,0,0" ItemsSource="{Binding DataGridLinije}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLinija}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Odredište" Binding="{Binding odredisteLinije}"/>
-                                <DataGridTextColumn Header="Cijena" Binding="{Binding cijenaZaGlavnoOdrediste}"/>
-                                <DataGridTextColumn Header="Vrijeme polaska" Binding="{Binding vrijemePolaska}"/>
-                                <DataGridTextColumn Header="Vrijeme dolaska" Binding="{Binding vrijemeDolaska}"/>
+                                <DataGridTextColumn Header="Odredište" Binding="{Binding odredisteLinije}" Width="63"/>
+                                <DataGridTextColumn Header="Cijena" Binding="{Binding cijenaZaGlavnoOdrediste}" Width="50"/>
+                                <DataGridTextColumn Header="Vrijeme polaska" Binding="{Binding vrijemePolaska}" Width="130"/>
+                                <DataGridTextColumn Header="Vrijeme dolaska" Binding="{Binding vrijemeDolaska}" Width="140"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
@@ -99,7 +99,7 @@
                      " HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="55" IsSelected="{Binding StanicaTabSelected}">
                 <Grid Background="#FFE5E5E5" Margin="0,-25,0,0">
                     <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" Margin="469,42,0,0" VerticalAlignment="Top" Height="329" Width="346">
-                        <DataGrid HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="247" Width="297" ItemsSource="{Binding ListaStanicaZaDataGrid}" SelectedItem="{Binding SelectedStanicaIzDataGrid}">
+                        <DataGrid HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="247" Width="297" ItemsSource="{Binding ListaStanicaZaDataGrid}" SelectedItem="{Binding SelectedStanicaIzDataGrid}" AutoGenerateColumns="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Naziv stanice (Grada)" Width="150" Binding="{Binding nazivGrada}"/>
                                 <DataGridTextColumn Header="Cijena vožnje" Width="147" Binding="{Binding cijenaVoznje}"/>

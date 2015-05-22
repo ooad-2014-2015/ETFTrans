@@ -13,7 +13,7 @@
         </GroupBox>
         <Button Content="Izbrisi stanicu sa linije" HorizontalAlignment="Left" Margin="123,208,0,0" VerticalAlignment="Top" Width="126" Command="{Binding BtnIzbrisiStanicuSaLinije}"/>
         <GroupBox Header="Dodaj stanicu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="285,10,0,0" Height="235" Width="243">
-            <DataGrid HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="158" Width="206" ItemsSource="{Binding StaniceIzBaze}" SelectedItem="{Binding SelectedStanicaIzBaze}">
+            <DataGrid HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="158" Width="206" ItemsSource="{Binding StaniceIzBaze}" SelectedItem="{Binding SelectedStanicaIzBaze}" AutoGenerateColumns="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Naziv stanice (Grada)" Binding="{Binding nazivGrada}"/>
                     <DataGridTextColumn Header="Cijena vožnje" Binding="{Binding cijenaVoznje}"/>
