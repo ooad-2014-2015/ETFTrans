@@ -375,6 +375,93 @@ namespace ETFTrans.DataAcces
             }
         }
 
-       
+
+
+        internal static void spremiIzmjenuStanice(Stanica a)
+        {
+            try
+            {
+                using(ETFTransBaza db = new ETFTransBaza())
+                {
+                    db.stanice.First(x => x.StanicaId == a.StanicaId).cijenaVoznje = a.cijenaVoznje;
+                    db.stanice.First(x => x.StanicaId == a.StanicaId).nazivGrada = a.nazivGrada;
+                    db.SaveChanges();
+                }
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        internal static void obrisiStanicu(Stanica x)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    Stanica a = db.stanice.First(i => i.StanicaId == x.StanicaId);
+                    db.stanice.Remove(a);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+
+        internal static void UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(List<Linija> listaLinija)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    foreach(Linija x in listaLinija)
+                    {
+                        db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije = sortirajStanice(db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije);
+                        db.Linije.First(a => a.LinijaID == x.LinijaID).odredisteLinije = db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije[db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije.Count - 1].nazivGrada;
+                        db.Linije.First(a => a.LinijaID == x.LinijaID).cijenaZaGlavnoOdrediste = db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije[db.Linije.First(a => a.LinijaID == x.LinijaID).staniceLinije.Count - 1].cijenaVoznje;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+        private static List<Stanica> sortirajStanice(List<Stanica> stanice)
+        {
+            Stanica temp;
+            for (int i = 0; i < stanice.Count - 1; i++)
+                for (int j = i + 1; j < stanice.Count; j++)
+                {
+                    if (stanice[i].cijenaVoznje > stanice[j].cijenaVoznje)
+                    {
+                        temp = stanice[i];
+                        stanice[i] = stanice[j];
+                        stanice[j] = temp;
+                    }
+                }
+            return stanice;
+        }
+
+        internal static List<Linija> dajLinijeZaStanicu(Stanica stanica)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    return db.stanice.First(x => x.StanicaId == stanica.StanicaId).stanicaZaLinije.ToList<Linija>();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return new List<Linija>();
+            }
+        }
     }
 }

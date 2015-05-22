@@ -96,13 +96,13 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Stanice
-                     " HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="55">
+                     " HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" Width="55" IsSelected="{Binding StanicaTabSelected}">
                 <Grid Background="#FFE5E5E5" Margin="0,-25,0,0">
                     <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" Margin="469,42,0,0" VerticalAlignment="Top" Height="329" Width="346">
-                        <DataGrid HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="247" Width="297">
+                        <DataGrid HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Height="247" Width="297" ItemsSource="{Binding ListaStanicaZaDataGrid}" SelectedItem="{Binding SelectedStanicaIzDataGrid}">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Naziv stanice (Grada)" Width="150"/>
-                                <DataGridTextColumn Header="Cijena vožnje" Width="147"/>
+                                <DataGridTextColumn Header="Naziv stanice (Grada)" Width="150" Binding="{Binding nazivGrada}"/>
+                                <DataGridTextColumn Header="Cijena vožnje" Width="147" Binding="{Binding cijenaVoznje}"/>
                             </DataGrid.Columns>
                         </DataGrid>
                     </GroupBox>
@@ -113,8 +113,8 @@
                     <Label Content="Cijena vožnje:" HorizontalAlignment="Left" Margin="94,139,0,0" VerticalAlignment="Top"/>
                     <Label Content="Naziv stanice (Grada):" HorizontalAlignment="Left" Margin="52,94,0,0" VerticalAlignment="Top"/>
                     <Button Content="Dodaj stanicu" HorizontalAlignment="Left" Margin="237,268,0,0" VerticalAlignment="Top" Width="75" Command="{Binding BtnDodajStanicu}"/>
-                    <Button Content="Obrisi stanicu" HorizontalAlignment="Left" Margin="696,331,0,0" VerticalAlignment="Top" Width="96"/>
-                    <Button Content="Spasi izmjene" HorizontalAlignment="Left" Margin="597,331,0,0" VerticalAlignment="Top" Width="94"/>
+                    <Button Content="Obrisi stanicu" HorizontalAlignment="Left" Margin="696,331,0,0" VerticalAlignment="Top" Width="96" Command="{Binding BtnObrisiStanicuIzDataGrid}"/>
+                    <Button Content="Spasi izmjene" HorizontalAlignment="Left" Margin="597,331,0,0" VerticalAlignment="Top" Width="94" Command="{Binding BtnSpremiIzmjeneIzDataGrid}"/>
                 </Grid>
             </TabItem>
         </TabControl>

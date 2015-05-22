@@ -14,6 +14,83 @@ namespace ETFTrans.ViewModel
 {
     public class ClanUpraveViewModel : BaseViewModel
     {
+         private bool _stanicaTabSelected;
+         private List<Stanica> _listaStanica;
+         private Stanica _selectedStanicaIzDataGrid;
+         private ICommand _btnObrisiStanicuIzDataGrid;
+         private ICommand _btnSpremiIzmjeneIzDataGrid;
+         public bool StanicaTabSelected
+         {
+             set
+             {
+                 if(_stanicaTabSelected != value)
+                 {
+                     _stanicaTabSelected = value;
+                     OnPropertyChanged("StanicaTabSelected");
+                     UpdateDataGridStanicama();
+                 }
+             }
+             get { return _stanicaTabSelected; }
+         }
+         public List<Stanica> ListaStanicaZaDataGrid
+         {
+             set
+             {
+                 if(_listaStanica != value)
+                 {
+                     _listaStanica = value;
+                     OnPropertyChanged("ListaStanicaZaDataGrid");
+                 }
+             }
+             get { return _listaStanica; }
+         }
+         public Stanica SelectedStanicaIzDataGrid
+         {
+             set { 
+                    if(_selectedStanicaIzDataGrid != value)
+                    {
+                        _selectedStanicaIzDataGrid = value;
+                        OnPropertyChanged("SelectedStanicaIzDataGrid");
+                    }
+                 }
+             get
+             {
+                 return _selectedStanicaIzDataGrid;
+             }
+         }
+         public ICommand BtnObrisiStanicuIzDataGrid
+         {
+             set
+             {
+                 if (_btnObrisiStanicuIzDataGrid != value)
+                     _btnObrisiStanicuIzDataGrid = value;
+             }
+             get
+             {
+                 return _btnObrisiStanicuIzDataGrid;
+             }
+         }
+         public ICommand BtnSpremiIzmjeneIzDataGrid
+         {
+             set
+             {
+                 if(_btnSpremiIzmjeneIzDataGrid != value)
+                 {
+                     _btnSpremiIzmjeneIzDataGrid = value;
+                 }
+             }
+             get
+             {
+                 return _btnSpremiIzmjeneIzDataGrid;
+             }
+         }
+
+         private void UpdateDataGridStanicama()
+         {
+             ListaStanicaZaDataGrid = BazaFunkcije.dajStanice();
+         }
+        
+        #region DodavanjeStaniceStanicaTab
         private string _nazivStanice;
         private string _cijenaVoznje;
         private ICommand _btnDodajStanicu;
@@ -60,6 +137,35 @@ namespace ETFTrans.ViewModel
             }
         }
 
+        private void dodajNovuStanicuIzStaniceTaba()
+        {
+            List<Stanica> staniceIzBaze = BazaFunkcije.dajStanice();
+            if (!validirajCijenu(CijenaVoznje))
+            {
+                MessageBox.Show("Cijena mora biti broj");
+                return;
+            }
+            Stanica novaStanica = new Stanica() { nazivGrada = NazivStanice, cijenaVoznje = Decimal.Parse(CijenaVoznje) };
+            BazaFunkcije.UpisiStanicuUBazu(novaStanica);
+            UpdateDataGridStanicama();
+            NazivStanice = "";
+            CijenaVoznje = "";
+            MessageBox.Show("Stanica uspjesno dodana!");
+        }
+
+        private bool validirajCijenu(string CijenaVoznje)
+        {
+            try
+            {
+                Decimal.Parse(CijenaVoznje);
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+        #endregion 
         public ClanUpraveViewModel()
             : base()
         {
@@ -75,34 +181,46 @@ namespace ETFTrans.ViewModel
             BtnIzbrisiLiniju = new RelayCommand(izbrisiLiniju);
             BtnPrikaziStaniceLinije = new RelayCommand(prikaziStaniceLinije);
             BtnDodajStanicu = new RelayCommand(dodajNovuStanicuIzStaniceTaba);
+            BtnObrisiStanicuIzDataGrid = new RelayCommand(obrisiStanicu);
+            BtnSpremiIzmjeneIzDataGrid = new RelayCommand(spremiIzmjeneStanice);
             UpdateDataGridAutobusima();
         }
 
-        private void dodajNovuStanicuIzStaniceTaba()
+        private void spremiIzmjeneStanice()
         {
-            List<Stanica> staniceIzBaze = BazaFunkcije.dajStanice();
-            if(!validirajCijenu(CijenaVoznje)) 
+            if(SelectedStanicaIzDataGrid == null)
             {
-                MessageBox.Show("Cijena mora biti broj");
+                MessageBox.Show("Nijedan stanica nije selektovana!");
                 return;
             }
-            Stanica novaStanica = new Stanica() { nazivGrada = NazivStanice, cijenaVoznje = Decimal.Parse(CijenaVoznje) };
-            BazaFunkcije.UpisiStanicuUBazu(novaStanica);
-            MessageBox.Show("Stanica uspjesno dodana!");
+            MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se izmjeniti za sve linije.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (dr == MessageBoxResult.Yes)
+            {
+                List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
+                BazaFunkcije.spremiIzmjenuStanice(SelectedStanicaIzDataGrid);
+                BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
+                UpdateDataGridStanicama();
+            }
         }
 
-        private bool validirajCijenu(string CijenaVoznje)
+        private void obrisiStanicu()
         {
-            try
+            if (SelectedStanicaIzDataGrid == null)
             {
-                Decimal.Parse(CijenaVoznje);
-                return true;
+                MessageBox.Show("Nijedan stanica nije selektovana!");
+                return;
             }
-            catch(Exception e)
+            MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se obrisati iz svih linija.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if(dr == MessageBoxResult.Yes)
             {
-                return false;
+                List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
+                BazaFunkcije.obrisiStanicu(SelectedStanicaIzDataGrid);
+                UpdateDataGridStanicama();
+                BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
             }
         }
+
+        
 
         #region DataGrid-IzmjenaLinijeIStanica
 
