@@ -14,6 +14,52 @@ namespace ETFTrans.ViewModel
 {
     public class ClanUpraveViewModel : BaseViewModel
     {
+        private string _nazivStanice;
+        private string _cijenaVoznje;
+        private ICommand _btnDodajStanicu;
+        public string NazivStanice
+        {
+            set
+            {
+                if (_nazivStanice != value)
+                {
+                    _nazivStanice = value;
+                    OnPropertyChanged("NazivStanice");
+                }
+            }
+            get
+            {
+                return _nazivStanice;
+            }
+        }
+        public string CijenaVoznje
+        {
+            set
+            {
+                if(_cijenaVoznje != value)
+                {
+                    _cijenaVoznje = value;
+                    OnPropertyChanged("CijenaVoznje");
+                }
+            }
+            get
+            {
+                return _cijenaVoznje;
+            }
+        }
+        public ICommand BtnDodajStanicu
+        {
+            set
+            {
+                if (_btnDodajStanicu != value)
+                    _btnDodajStanicu = value;
+            }
+            get
+            {
+                return _btnDodajStanicu;
+            }
+        }
+
         public ClanUpraveViewModel()
             : base()
         {
@@ -28,7 +74,34 @@ namespace ETFTrans.ViewModel
             BtnDodajNovuStanicu = new RelayCommand(dodajNovuStanicu);
             BtnIzbrisiLiniju = new RelayCommand(izbrisiLiniju);
             BtnPrikaziStaniceLinije = new RelayCommand(prikaziStaniceLinije);
+            BtnDodajStanicu = new RelayCommand(dodajNovuStanicuIzStaniceTaba);
             UpdateDataGridAutobusima();
+        }
+
+        private void dodajNovuStanicuIzStaniceTaba()
+        {
+            List<Stanica> staniceIzBaze = BazaFunkcije.dajStanice();
+            if(!validirajCijenu(CijenaVoznje)) 
+            {
+                MessageBox.Show("Cijena mora biti broj");
+                return;
+            }
+            Stanica novaStanica = new Stanica() { nazivGrada = NazivStanice, cijenaVoznje = Decimal.Parse(CijenaVoznje) };
+            BazaFunkcije.UpisiStanicuUBazu(novaStanica);
+            MessageBox.Show("Stanica uspjesno dodana!");
+        }
+
+        private bool validirajCijenu(string CijenaVoznje)
+        {
+            try
+            {
+                Decimal.Parse(CijenaVoznje);
+                return true;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         #region DataGrid-IzmjenaLinijeIStanica
