@@ -32,9 +32,9 @@ namespace ETFTrans
                 using (ETFTransBaza db = new ETFTransBaza())
                 {
                   
-                     ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };     
-                     db.uposlenici.Add(noviClan);
-                     db.SaveChanges();
+                    // ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };     
+                     //db.uposlenici.Add(noviClan);
+                    // db.SaveChanges();
                     
                 }
             }
