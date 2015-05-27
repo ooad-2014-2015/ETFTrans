@@ -14,7 +14,505 @@ namespace ETFTrans.ViewModel
 {
     public class ClanUpraveViewModel : BaseViewModel
     {
-         private bool _stanicaTabSelected;
+
+        private List<Uposlenik> _uposlenici;
+        private bool _tabUposleniciSelected;
+        private Uposlenik _selectedUposlenik;
+        private ICommand _btnObrisiUposlenika;
+        private ICommand _btnIzmjeniUposlenika;
+
+        public List<Uposlenik> ListaUposlenika
+        {
+            set
+            {
+                if(_uposlenici != value)
+                {
+                    _uposlenici = value;
+                    OnPropertyChanged("ListaUposlenika");
+                }
+            }
+            get { return _uposlenici; }
+        }
+        public bool TabUposleniciSelected
+        {
+            set
+            {
+                if(_tabUposleniciSelected != value)
+                {
+                    _tabUposleniciSelected = value;
+                    updateDataGridUposlenicima();
+                    OnPropertyChanged("TabUposleniciSelected");
+                }
+            }
+            get { return _tabUposleniciSelected; }
+        }
+        public Uposlenik SelectedUposlenik
+        {
+            set { if(_selectedUposlenik != value)
+            {
+                _selectedUposlenik = value;
+                OnPropertyChanged("SelectedUposlenik");
+            }
+            }
+            get { return _selectedUposlenik; }
+        }
+
+        public ICommand BtnObrisiUposlenika
+        {
+            set { _btnObrisiUposlenika = value; }
+            get { return _btnObrisiUposlenika; }
+        }
+        public ICommand BtnIzmjeniUposlenika
+        {
+            set { _btnIzmjeniUposlenika = value; }
+            get { return _btnIzmjeniUposlenika; }
+        }
+        private void obrisiUposlenika()
+        {
+            if (SelectedUposlenik != null)
+                Task.Factory.StartNew(() => BazaFunkcije.ObrisiUposlenika(SelectedUposlenik)).ContinueWith( t => updateDataGridUposlenicima());
+            else
+                MessageBox.Show("Nijedan uposlenik nije selektovan!");
+        }
+
+        private async void updateDataGridUposlenicima()
+        {
+            ListaUposlenika = await Task<List<Uposlenik>>.Factory.StartNew( () => BazaFunkcije.dajUposlenike() );
+        }
+        private void izmjeniUposlenika()
+        {
+            if (SelectedUposlenik != null)
+                Task.Factory.StartNew(() => BazaFunkcije.izmjeniUposlenika(SelectedUposlenik)).ContinueWith(t => updateDataGridUposlenicima());
+            else
+                MessageBox.Show("Nijedan uposlenik nije selektovan!");
+
+            
+        }
+
+        public ClanUpraveViewModel()
+            : base()
+        {
+
+            BtnDodajAutobus = new RelayCommand(registrujAutobus);
+            BtnIzmjeniAutobus = new RelayCommand(izmjeniAutobus);
+            BtnObrisiAutobus = new RelayCommand(obrisiAutobus);
+            BtnOdjava = new RelayCommand(odjavaUposlenika);
+            BtnDodajAutobusZaLiniju = new RelayCommand(dodajAutobusZaLiniju);
+            BtnDodajStanicuZaLiniju = new RelayCommand(dodajStanicuZaLiniju);
+            BtnDodajLiniju = new RelayCommand(dodajLiniju);
+            BtnDodajNovuStanicu = new RelayCommand(dodajNovuStanicu);
+            BtnIzbrisiLiniju = new RelayCommand(izbrisiLiniju);
+            BtnPrikaziStaniceLinije = new RelayCommand(prikaziStaniceLinije);
+            BtnDodajStanicu = new RelayCommand(dodajNovuStanicuIzStaniceTaba);
+            BtnObrisiStanicuIzDataGrid = new RelayCommand(obrisiStanicu);
+            BtnSpremiIzmjeneIzDataGrid = new RelayCommand(spremiIzmjeneStanice);
+            BtnDodajUposlenika = new RelayCommand(dodajUposlenika);
+            BtnObrisiUposlenika = new RelayCommand(obrisiUposlenika);
+            BtnIzmjeniUposlenika = new RelayCommand(izmjeniUposlenika);
+            UpdateDataGridAutobusima();
+        }
+
+        
+
+       
+
+
+        #region DodavanjeUposlenika
+        private string _ime;
+        private string _prezime;
+        private DateTime _datumRodjenja = DateTime.Now;
+        private string _jmbg = "";
+        private string _plata;
+        private DateTime _ugovorDo = DateTime.Now;
+        private string _userName;
+        private string _password;
+        private ICommand _btnDodajUposlenika;
+
+        public string UserName
+        {
+            set
+            {
+                if (_userName != value)
+                {
+                    _userName = value;
+                    OnPropertyChanged("UserName");
+                }
+            }
+            get { return _userName; }
+        }
+        public string Password
+        {
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    OnPropertyChanged("Password");
+                }
+            }
+            get { return _password; }
+        }
+        public string Ime
+        {
+            set
+            {
+                if (_ime != value)
+                {
+                    _ime = value;
+                    OnPropertyChanged("Ime");
+                }
+            }
+            get { return _ime; }
+        }
+        public string Prezime
+        {
+            set
+            {
+                if (_prezime != value)
+                {
+                    _prezime = value;
+                    OnPropertyChanged("Prezime");
+                }
+            }
+            get { return _prezime; }
+        }
+        public DateTime DatumRodjenja
+        {
+            set
+            {
+                if (_datumRodjenja != value)
+                {
+                    _datumRodjenja = value;
+                    OnPropertyChanged("DatumRodjenja");
+                }
+            }
+            get { return _datumRodjenja; }
+        }
+        public string JMBG
+        {
+            set
+            {
+                if (_jmbg != value)
+                {
+                    _jmbg = value;
+                    OnPropertyChanged("JMBG");
+                }
+            }
+            get { return _jmbg; }
+        }
+        public DateTime UgovorDo
+        {
+            set
+            {
+                if (_ugovorDo != value)
+                {
+                    _ugovorDo = value;
+                    OnPropertyChanged("UgovorDo");
+                }
+            }
+            get { return _ugovorDo; }
+        }
+        public string Plata
+        {
+            set
+            {
+                if (_plata != value)
+                {
+                    _plata = value;
+                    OnPropertyChanged("Plata");
+                }
+            }
+            get { return _plata; }
+        }
+        public ICommand BtnDodajUposlenika
+        {
+            set { _btnDodajUposlenika = value; }
+            get { return _btnDodajUposlenika; }
+        }
+
+        private bool validirajJMBG(string jmbg)
+        {
+            if (jmbg.Length != 13)
+            {
+                MessageBox.Show("JMBG mora biti 13 cifara!");
+                return false;
+            }
+            else return true;
+        }
+        private bool validirajPlatu(string plata)
+        {
+            try
+            {
+
+                if (Decimal.Parse(plata) > 0)
+                    return true;
+                else
+                {
+                    MessageBox.Show("Plata mora biti broj veći od nule!");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Plata mora biti broj!");
+                return false;
+            }
+        }
+
+        private void dodajUposlenika()
+        {
+            if (!validirajJMBG(JMBG)) return;
+            if (!validirajPlatu(Plata)) return;
+
+            Uposlenik noviUposlenik;
+            if (Direktor)
+                noviUposlenik = new Direktor()
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo,
+                    userName = UserName,
+                    password = Password
+
+                };
+            else if (ClanUprave)
+                noviUposlenik = new ClanUprave
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo,
+                    userName = UserName,
+                    password = Password
+                };
+            else if (Otpremnik)
+                noviUposlenik = new Otpremnik()
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo,
+                    userName = UserName,
+                    password = Password
+                };
+            else if (RadnikNaInformacijama)
+                noviUposlenik = new RadnikNaSalteruPretraga()
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo,
+                    userName = UserName,
+                    password = Password
+                };
+            else if (RadnikUProdaji)
+                noviUposlenik = new RadnikNaSalteruProdaja()
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo,
+                    userName = UserName,
+                    password = Password
+                };
+            else if (Vozac)
+
+                noviUposlenik = new Vozac()
+                {
+                    ime = Ime,
+                    prezime = Prezime,
+                    jmbg = JMBG,
+                    datumRodenja = DatumRodjenja,
+                    datumZaposlenja = DateTime.Now,
+                    plata = Decimal.Parse(Plata),
+                    ugovorDo = UgovorDo
+
+                };
+
+
+
+            else
+            {
+                MessageBox.Show("Nije čekiran nijedan tip uposlenika!");
+                return;
+            }
+
+            Task.Factory.StartNew(() => BazaFunkcije.upisiUposlenikaUbazu(noviUposlenik)).ContinueWith( t => updateDataGridUposlenicima() );
+
+
+        }
+
+        private bool _vozac;
+        private bool _clanUprave;
+        private bool _direktor;
+        private bool _radnikUProdaji;
+        private bool _radnikNaInformacijama;
+        private bool _otpremnik;
+        private Visibility _userNamePassLabelTextVidljivost;
+
+
+        public Visibility UserNamePassLabelTextVidljivost
+        {
+            set
+            {
+                if (_userNamePassLabelTextVidljivost != value)
+                {
+                    _userNamePassLabelTextVidljivost = value;
+                    OnPropertyChanged("UserNamePassLabelTextVidljivost");
+                }
+            }
+            get { return _userNamePassLabelTextVidljivost; }
+        }
+
+
+        public bool Vozac
+        {
+            set
+            {
+                if (_vozac != value)
+                {
+                    _vozac = value;
+                    if (_vozac)
+                    {
+                        ClanUprave = false;
+                        Direktor = false;
+                        RadnikNaInformacijama = false;
+                        RadnikUProdaji = false;
+                        Otpremnik = false;
+                        UserNamePassLabelTextVidljivost = Visibility.Hidden;
+
+                    }
+                    else
+                    {
+                        UserNamePassLabelTextVidljivost = Visibility.Visible;
+
+                    }
+
+                    OnPropertyChanged("Vozac");
+                }
+            }
+            get { return _vozac; }
+        }
+        public bool ClanUprave
+        {
+            set
+            {
+                if (_clanUprave != value)
+                {
+                    _clanUprave = value;
+                    if (_clanUprave)
+                    {
+                        Vozac = false;
+                        Direktor = false;
+                        RadnikNaInformacijama = false;
+                        RadnikUProdaji = false;
+                        Otpremnik = false;
+                    }
+                    OnPropertyChanged("ClanUprave");
+                }
+            }
+            get { return _clanUprave; }
+        }
+        public bool Direktor
+        {
+            set
+            {
+                if (_direktor != value)
+                {
+                    _direktor = value;
+                    if (_direktor)
+                    {
+                        ClanUprave = false;
+                        Vozac = false;
+                        RadnikNaInformacijama = false;
+                        RadnikUProdaji = false;
+                        Otpremnik = false;
+                    }
+                    OnPropertyChanged("Direktor");
+                }
+            }
+            get { return _direktor; }
+        }
+        public bool RadnikUProdaji
+        {
+            set
+            {
+                if (_radnikUProdaji != value)
+                {
+                    _radnikUProdaji = value;
+                    if (_radnikUProdaji)
+                    {
+                        ClanUprave = false;
+                        Direktor = false;
+                        RadnikNaInformacijama = false;
+                        Vozac = false;
+                        Otpremnik = false;
+                    }
+                    OnPropertyChanged("RadnikUProdaji");
+                }
+            }
+            get { return _radnikUProdaji; }
+        }
+        public bool RadnikNaInformacijama
+        {
+            set
+            {
+                if (_radnikNaInformacijama != value)
+                {
+                    _radnikNaInformacijama = value;
+                    if (_radnikNaInformacijama)
+                    {
+                        ClanUprave = false;
+                        Direktor = false;
+                        Vozac = false;
+                        RadnikUProdaji = false;
+                        Otpremnik = false;
+                    }
+                    OnPropertyChanged("RadnikNaInformacijama");
+                }
+            }
+            get { return _radnikNaInformacijama; }
+        }
+        public bool Otpremnik
+        {
+            set
+            {
+                if (_otpremnik != value)
+                {
+                    _otpremnik = value;
+                    if (_otpremnik)
+                    {
+                        ClanUprave = false;
+                        Direktor = false;
+                        RadnikNaInformacijama = false;
+                        RadnikUProdaji = false;
+                        Vozac = false;
+                    }
+                    OnPropertyChanged("Otpremnik");
+                }
+            }
+            get { return _otpremnik; }
+        }
+        #endregion
+
+        #region ImplementacijaStanicaTab
+        private bool _stanicaTabSelected;
          private List<Stanica> _listaStanica;
          private Stanica _selectedStanicaIzDataGrid;
          private ICommand _btnObrisiStanicuIzDataGrid;
@@ -88,6 +586,39 @@ namespace ETFTrans.ViewModel
          private void UpdateDataGridStanicama()
          {
              ListaStanicaZaDataGrid = BazaFunkcije.dajStanice();
+         }
+         private void spremiIzmjeneStanice()
+         {
+             if (SelectedStanicaIzDataGrid == null)
+             {
+                 MessageBox.Show("Nijedan stanica nije selektovana!");
+                 return;
+             }
+             MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se izmjeniti za sve linije.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+             if (dr == MessageBoxResult.Yes)
+             {
+                 List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
+                 BazaFunkcije.spremiIzmjenuStanice(SelectedStanicaIzDataGrid);
+                 BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
+                 UpdateDataGridStanicama();
+             }
+         }
+
+         private void obrisiStanicu()
+         {
+             if (SelectedStanicaIzDataGrid == null)
+             {
+                 MessageBox.Show("Nijedan stanica nije selektovana!");
+                 return;
+             }
+             MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se obrisati iz svih linija.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
+             if (dr == MessageBoxResult.Yes)
+             {
+                 List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
+                 BazaFunkcije.obrisiStanicu(SelectedStanicaIzDataGrid);
+                 UpdateDataGridStanicama();
+                 BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
+             }
          }
         
         #region DodavanjeStaniceStanicaTab
@@ -166,61 +697,7 @@ namespace ETFTrans.ViewModel
             }
         }
         #endregion 
-        public ClanUpraveViewModel()
-            : base()
-        {
-
-            BtnDodajAutobus = new RelayCommand(registrujAutobus);
-            BtnIzmjeniAutobus = new RelayCommand(izmjeniAutobus);
-            BtnObrisiAutobus = new RelayCommand(obrisiAutobus);
-            BtnOdjava = new RelayCommand(odjavaUposlenika);
-            BtnDodajAutobusZaLiniju = new RelayCommand(dodajAutobusZaLiniju);
-            BtnDodajStanicuZaLiniju = new RelayCommand(dodajStanicuZaLiniju);
-            BtnDodajLiniju = new RelayCommand(dodajLiniju);
-            BtnDodajNovuStanicu = new RelayCommand(dodajNovuStanicu);
-            BtnIzbrisiLiniju = new RelayCommand(izbrisiLiniju);
-            BtnPrikaziStaniceLinije = new RelayCommand(prikaziStaniceLinije);
-            BtnDodajStanicu = new RelayCommand(dodajNovuStanicuIzStaniceTaba);
-            BtnObrisiStanicuIzDataGrid = new RelayCommand(obrisiStanicu);
-            BtnSpremiIzmjeneIzDataGrid = new RelayCommand(spremiIzmjeneStanice);
-            UpdateDataGridAutobusima();
-        }
-
-        private void spremiIzmjeneStanice()
-        {
-            if(SelectedStanicaIzDataGrid == null)
-            {
-                MessageBox.Show("Nijedan stanica nije selektovana!");
-                return;
-            }
-            MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se izmjeniti za sve linije.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (dr == MessageBoxResult.Yes)
-            {
-                List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
-                BazaFunkcije.spremiIzmjenuStanice(SelectedStanicaIzDataGrid);
-                BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
-                UpdateDataGridStanicama();
-            }
-        }
-
-        private void obrisiStanicu()
-        {
-            if (SelectedStanicaIzDataGrid == null)
-            {
-                MessageBox.Show("Nijedan stanica nije selektovana!");
-                return;
-            }
-            MessageBoxResult dr = MessageBox.Show("Da li ste sigurni? Stanica će se obrisati iz svih linija.", "Oprez!", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if(dr == MessageBoxResult.Yes)
-            {
-                List<Linija> listaLinijaStanice = BazaFunkcije.dajLinijeZaStanicu(SelectedStanicaIzDataGrid);
-                BazaFunkcije.obrisiStanicu(SelectedStanicaIzDataGrid);
-                UpdateDataGridStanicama();
-                BazaFunkcije.UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(listaLinijaStanice);
-            }
-        }
-
-        
+        #endregion
 
         #region DataGrid-IzmjenaLinijeIStanica
 

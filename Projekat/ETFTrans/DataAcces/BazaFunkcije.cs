@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ETFTrans.Model;
 using System.Windows;
+using System.Threading;
 
 namespace ETFTrans.DataAcces
 {
@@ -374,9 +375,6 @@ namespace ETFTrans.DataAcces
                 MessageBox.Show(e.ToString());
             }
         }
-
-
-
         internal static void spremiIzmjenuStanice(Stanica a)
         {
             try
@@ -461,6 +459,72 @@ namespace ETFTrans.DataAcces
             {
                 MessageBox.Show(e.ToString());
                 return new List<Linija>();
+            }
+        }
+
+        internal static void upisiUposlenikaUbazu(Uposlenik noviUposlenik)
+        {
+            
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    db.uposlenici.Add(noviUposlenik);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        internal static void ObrisiUposlenika(Uposlenik a)
+        {
+            Uposlenik x;
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    x = db.uposlenici.First(i => i.UposlenikId == a.UposlenikId);
+                    db.uposlenici.Remove(x);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        internal static void izmjeniUposlenika(Uposlenik x)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+        internal static List<Uposlenik> dajUposlenike()
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    return db.uposlenici.ToList<Uposlenik>();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return new List<Uposlenik>();
             }
         }
     }

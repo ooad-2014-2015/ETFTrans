@@ -117,32 +117,50 @@
                     <Button Content="Spasi izmjene" HorizontalAlignment="Left" Margin="597,331,0,0" VerticalAlignment="Top" Width="94" Command="{Binding BtnSpremiIzmjeneIzDataGrid}"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Uposlenici" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="70" Margin="-2,0,0,0">
+            <TabItem Header="Uposlenici" HorizontalAlignment="Left" Height="18" VerticalAlignment="Top" Width="70" Margin="-2,0,0,0" IsSelected="{Binding TabUposleniciSelected}">
                 <Grid Background="#FFE5E5E5" Margin="0,-28,0,1">
-                    <GroupBox Header="Dodavanje" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Height="400" Width="536">
-                        <Label Content="Datum rođenja:" HorizontalAlignment="Left" Margin="24,92,0,0" VerticalAlignment="Top" Width="94"/>
+                    <GroupBox Header="Dodavanje" HorizontalAlignment="Left" Margin="10,34,0,0" VerticalAlignment="Top" Height="347" Width="536">
+                        <Button Content="Dodaj uposlenika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="102" Margin="398,283,0,0" Command="{Binding BtnDodajUposlenika}"/>
                     </GroupBox>
                     <Label Content="Prezime:" HorizontalAlignment="Left" Margin="72,113,0,0" VerticalAlignment="Top"/>
                     <Label Content="Ime:" HorizontalAlignment="Left" Margin="95,85,0,0" VerticalAlignment="Top"/>
                     <Label Content="JMBG:" HorizontalAlignment="Left" Margin="84,169,0,0" VerticalAlignment="Top"/>
                     <Label Content="Ugovor do:" HorizontalAlignment="Left" Margin="58,200,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Korisničko ime:" HorizontalAlignment="Left" Margin="37,231,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Šifra:" HorizontalAlignment="Left" Margin="91,257,0,0" VerticalAlignment="Top"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <DatePicker HorizontalAlignment="Left" Margin="146,144,0,0" VerticalAlignment="Top" Width="120"/>
-                    <DatePicker HorizontalAlignment="Left" Margin="146,202,0,0" VerticalAlignment="Top" Width="120"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,234,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,262,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-                    <GroupBox Header="Tip uposlenika" HorizontalAlignment="Left" Margin="320,82,0,0" VerticalAlignment="Top" Height="160" Width="202">
-                        <RadioButton Content="Radnik za informacije" HorizontalAlignment="Left" Margin="23,71,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Korisničko ime:" HorizontalAlignment="Left" Margin="37,272,0,0" VerticalAlignment="Top" Visibility="{Binding UserNamePassLabelTextVidljivost}"/>
+                    <Label Content="Šifra:" HorizontalAlignment="Left" Margin="91,296,0,0" VerticalAlignment="Top" Visibility="{Binding UserNamePassLabelTextVidljivost}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Ime}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,116,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Prezime}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding JMBG}"/>
+                    <DatePicker HorizontalAlignment="Left" Margin="146,144,0,0" VerticalAlignment="Top" Width="120" SelectedDate="{Binding DatumRodjenja}"/>
+                    <DatePicker HorizontalAlignment="Left" Margin="146,202,0,0" VerticalAlignment="Top" Width="120" SelectedDate="{Binding UgovorDo}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,272,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Visibility="{Binding UserNamePassLabelTextVidljivost}" Text="{Binding UserName}"/>
+                    <TextBox HorizontalAlignment="Left" Height="22" Margin="146,300,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Visibility="{Binding UserNamePassLabelTextVidljivost}" Text="{Binding Password}"/>
+                    <GroupBox Header="Tip uposlenika" HorizontalAlignment="Left" Margin="320,82,0,0" VerticalAlignment="Top" Height="172" Width="202">
+                        <RadioButton Content="Radnik za informacije" HorizontalAlignment="Left" Margin="23,71,0,0" VerticalAlignment="Top" IsChecked="{Binding RadnikNaInformacijama}"/>
                     </GroupBox>
-                    <RadioButton Content="Direktor" HorizontalAlignment="Left" Margin="349,113,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="Član uprave" HorizontalAlignment="Left" Margin="349,133,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="Radnik u prodaji" HorizontalAlignment="Left" Margin="349,153,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="Otpremnik" HorizontalAlignment="Left" Margin="349,188,0,0" VerticalAlignment="Top"/>
-                    <RadioButton Content="Vozač" HorizontalAlignment="Left" Margin="349,207,0,0" VerticalAlignment="Top"/>
+                    <RadioButton Content="Direktor" HorizontalAlignment="Left" Margin="349,113,0,0" VerticalAlignment="Top" IsChecked="{Binding Direktor}"/>
+                    <RadioButton Content="Član uprave" HorizontalAlignment="Left" Margin="349,133,0,0" VerticalAlignment="Top" IsChecked="{Binding ClanUprave}"/>
+                    <RadioButton Content="Radnik u prodaji" HorizontalAlignment="Left" Margin="349,153,0,0" VerticalAlignment="Top" IsChecked="{Binding RadnikUProdaji}"/>
+                    <RadioButton Content="Otpremnik" HorizontalAlignment="Left" Margin="349,188,0,0" VerticalAlignment="Top" IsChecked="{Binding Otpremnik}"/>
+                    <RadioButton Content="Vozač" HorizontalAlignment="Left" Margin="349,207,0,0" VerticalAlignment="Top" IsChecked="{Binding Vozac}"/>
+                    <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Content="Plata:" HorizontalAlignment="Left" Margin="88,231,0,0" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="146,231,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Plata}"/>
+                    <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" Margin="608,34,0,0" VerticalAlignment="Top" Height="347" Width="460">
+                        <DataGrid HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="248" Width="430" AutoGenerateColumns="False" SelectedItem="{Binding SelectedUposlenik}" ItemsSource="{Binding ListaUposlenika}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn x:Name="Ime" Header="Ime" Binding="{Binding ime}"/>
+                                <DataGridTextColumn Header="Prezime" Binding="{Binding prezime}"/>
+                                <DataGridTextColumn Header="Plata" Binding="{Binding plata}"/>
+                                <DataGridTextColumn Header="JMBG" Binding="{Binding jmbg}"/>
+                                <DataGridTextColumn Header="Datum zaposlenja" Binding="{Binding datumZaposlenja}"/>
+                                <DataGridTextColumn Header="Ima ugovor do" Binding="{Binding ugovorDo}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                    <Label Content="Datum rođenja:" HorizontalAlignment="Left" Margin="35,142,0,0" VerticalAlignment="Top"/>
+                    <Button Content="Obrisi uposlenika" HorizontalAlignment="Left" Margin="952,340,0,0" VerticalAlignment="Top" Width="102" Command="{Binding BtnObrisiUposlenika}"/>
+                    <Button Content="Spasi Izmjene" HorizontalAlignment="Left" Margin="862,340,0,0" VerticalAlignment="Top" Width="85" Command="{Binding BtnIzmjeniUposlenika}"/>
                 </Grid>
             </TabItem>
         </TabControl>
@@ -151,7 +169,6 @@
                 <MenuItem Header="Odjava" HorizontalAlignment="Left" Width="121" Command="{Binding BtnOdjava}"/>
             </MenuItem>
         </Menu>
-        <Button Grid.ColumnSpan="2" Content="Dodaj uposlenika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="76" Margin="448,394,0,0"/>
 
     </Grid>
 </Window>

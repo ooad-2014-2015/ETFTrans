@@ -25,5 +25,7 @@ namespace ETFTrans.View
         {
             InitializeComponent();
         }
+
+        
     }
 }
