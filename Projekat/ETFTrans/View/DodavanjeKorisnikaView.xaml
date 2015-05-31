@@ -1,0 +1,21 @@
+﻿<Window x:Class="ETFTrans.View.DodavanjeKorisnikaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DodavanjeKorisnikaView" Height="252.238" Width="353.731" ResizeMode="NoResize" Icon="/ETFTrans;component/Image/ETFTransStanica.jpg">
+    <Grid Margin="0,0,-8,7">
+        <GroupBox Header="Dodavanje korisnika" HorizontalAlignment="Left" Height="216" VerticalAlignment="Top" Width="344">
+            <Label Content="Ime:" HorizontalAlignment="Left" Margin="48,10,0,0" VerticalAlignment="Top"/>
+        </GroupBox>
+        <Label Content="  Prezime:" HorizontalAlignment="Left" Height="27" Margin="26,53,0,0" VerticalAlignment="Top" Width="79"/>
+        <Label Content="JMBG:" HorizontalAlignment="Left" Margin="45,80,0,0" VerticalAlignment="Top" Width="60"/>
+        <Label Content="ID:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="62,106,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="105,26,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding Ime}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="105,54,0,0" Text="{Binding Prezime}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="105,83,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding JMBG}"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="105,109,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding UserID}"/>
+        <CheckBox Content="Student" HorizontalAlignment="Left" Margin="62,159,0,0" VerticalAlignment="Top" Width="100" IsChecked="{Binding Student}"/>
+        <CheckBox Content="Penzioner" HorizontalAlignment="Left" Margin="62,179,0,0" VerticalAlignment="Top" Width="100" IsChecked="{Binding Penzioner}"/>
+        <Button Content="Dodaj korisnika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="96" Margin="213,179,0,0" Command="{Binding BtnUnesiKorisnika}"/>
+
+    </Grid>
+</Window>

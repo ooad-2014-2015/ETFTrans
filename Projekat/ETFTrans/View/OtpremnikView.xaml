@@ -1,0 +1,32 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:ETFTrans.ViewModel" x:Class="ETFTrans.View.OtpremnikView"
+        Title="OtpremnikView" Height="413.432" Width="328.359" Icon="/ETFTrans;component/Image/ETFTransStanica.jpg" Background="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}">
+    <Window.DataContext>
+        <ViewModel:OtpremikViewModel/>
+    </Window.DataContext>
+    <Grid Margin="0,0,-8,-3">
+        <GroupBox Header="Otprema autobusa" HorizontalAlignment="Left" VerticalAlignment="Top" Height="366" Width="318" Margin="0,19,0,0">
+            <Label Content="Registracija autobusa:" HorizontalAlignment="Left" Margin="26,113,0,0" VerticalAlignment="Top"/>
+        </GroupBox>
+        <ComboBox HorizontalAlignment="Left" Margin="169,133,0,0" VerticalAlignment="Top" Width="120" IsEditable="True" SelectedItem="{Binding SelectedAutobus}" Text="{Binding RegistracijaAutobusa}" ItemsSource="{Binding Autobusi}" DisplayMemberPath="registracija"/>
+        <GroupBox Header="Tip autobusa" HorizontalAlignment="Left" Height="65" Margin="32,46,0,0" VerticalAlignment="Top" Width="257"/>
+        <RadioButton Content="Autobus iz kompanije" HorizontalAlignment="Left" Height="18" Margin="89,65,0,0" VerticalAlignment="Top" IsChecked="{Binding AutobusKompanije}"/>
+        <RadioButton Content="Strani autobus" HorizontalAlignment="Left" Height="16" Margin="89,83,0,0" VerticalAlignment="Top" IsChecked="{Binding StraniAutobus}"/>
+        <Label Content="Naziv kompanije:" HorizontalAlignment="Left" Height="27" Margin="56,162,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="{Binding StraniAutobus}" Text="{Binding NazivKompanije}"/>
+        <GroupBox Header="Došao/Otišao" HorizontalAlignment="Left" Height="82" Margin="32,238,0,0" VerticalAlignment="Top" Width="153"/>
+        <CheckBox Content="Došao" HorizontalAlignment="Left" Height="19" Margin="85,264,0,0" VerticalAlignment="Top" IsChecked="{Binding Dosao}"/>
+        <CheckBox Content="Otišao" HorizontalAlignment="Left" Height="18" Margin="85,288,0,0" VerticalAlignment="Top" IsChecked="{Binding Otisao}"/>
+        <Button Content="Otpremi" HorizontalAlignment="Left" Height="25" Margin="192,338,0,0" VerticalAlignment="Top" Width="97" Command="{Binding BtnOtpremi}"/>
+        <Label Content="Vrijeme otpreme:" HorizontalAlignment="Left" Margin="56,194,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="169,197,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Text="{Binding VrijemeOtpreme}"/>
+        <Menu HorizontalAlignment="Left" Height="19" VerticalAlignment="Top" Width="328" Background="#FFFBFBFB">
+            <MenuItem Header="Opcije">
+                <MenuItem Header="Odjava" HorizontalAlignment="Left" Width="130" Command="{Binding BtnOdjava}"/>
+            </MenuItem>
+        </Menu>
+
+    </Grid>
+</Window>

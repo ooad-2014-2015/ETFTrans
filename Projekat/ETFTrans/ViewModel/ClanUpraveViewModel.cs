@@ -112,6 +112,31 @@ namespace ETFTrans.ViewModel
             UpdateDataGridAutobusima();
         }
 
+        public ClanUpraveViewModel(string UserName1, Window view)
+        {
+            
+            prijavljeniUser = UserName1;
+            window = view;
+            window.Closing += closeHandler1;
+            BtnDodajAutobus = new RelayCommand(registrujAutobus);
+            BtnIzmjeniAutobus = new RelayCommand(izmjeniAutobus);
+            BtnObrisiAutobus = new RelayCommand(obrisiAutobus);
+            BtnOdjava = new RelayCommand(odjavaUposlenika);
+            BtnDodajAutobusZaLiniju = new RelayCommand(dodajAutobusZaLiniju);
+            BtnDodajStanicuZaLiniju = new RelayCommand(dodajStanicuZaLiniju);
+            BtnDodajLiniju = new RelayCommand(dodajLiniju);
+            BtnDodajNovuStanicu = new RelayCommand(dodajNovuStanicu);
+            BtnIzbrisiLiniju = new RelayCommand(izbrisiLiniju);
+            BtnPrikaziStaniceLinije = new RelayCommand(prikaziStaniceLinije);
+            BtnDodajStanicu = new RelayCommand(dodajNovuStanicuIzStaniceTaba);
+            BtnObrisiStanicuIzDataGrid = new RelayCommand(obrisiStanicu);
+            BtnSpremiIzmjeneIzDataGrid = new RelayCommand(spremiIzmjeneStanice);
+            BtnDodajUposlenika = new RelayCommand(dodajUposlenika);
+            BtnObrisiUposlenika = new RelayCommand(obrisiUposlenika);
+            BtnIzmjeniUposlenika = new RelayCommand(izmjeniUposlenika);
+            UpdateDataGridAutobusima();
+        }
+
         
 
        
@@ -258,13 +283,51 @@ namespace ETFTrans.ViewModel
                 return false;
             }
         }
-
+        private bool validirajPodatke()
+        {
+            if (Ime.Length == 0)
+            {
+                MessageBox.Show("Niste unijeli ime zaposlenika!");
+                return false;
+            }
+            else if (Prezime.Length == 0)
+            {
+                MessageBox.Show("Niste unijeli prezime zaposlenika!");
+                return false;
+            }
+            else return true;
+        }
+        private bool validirajUserNamePassword()
+        {
+            if(UserName.Length == 0)
+            {
+                MessageBox.Show("Niste unijeli korisničko ime zaposlenika!");
+                return false;
+            }
+            if (Password.Length == 0)
+            {
+                MessageBox.Show("Niste unijeli šifru za zaposlenika!");
+                return false;
+            }
+            List<Uposlenik> uposlenici = BazaFunkcije.dajUposlenike();
+            foreach (Uposlenik u in uposlenici)
+            {
+                if (u.userName == UserName)
+                {
+                    MessageBox.Show("Korisničko ime već zauzeto!");
+                    return false;
+                }
+            }
+            return true;
+        }
         private void dodajUposlenika()
         {
+            if (!validirajPodatke()) return;
             if (!validirajJMBG(JMBG)) return;
             if (!validirajPlatu(Plata)) return;
 
             Uposlenik noviUposlenik;
+          
             if (Direktor)
                 noviUposlenik = new Direktor()
                 {
@@ -349,12 +412,17 @@ namespace ETFTrans.ViewModel
 
             else
             {
+                
                 MessageBox.Show("Nije čekiran nijedan tip uposlenika!");
                 return;
             }
-
+            if(!(noviUposlenik is Vozac) && !validirajUserNamePassword())
+            {
+                return;
+            }
+            if (noviUposlenik == null) return;
             Task.Factory.StartNew(() => BazaFunkcije.upisiUposlenikaUbazu(noviUposlenik)).ContinueWith( t => updateDataGridUposlenicima() );
-
+            MessageBox.Show("Uposlenik uspješno dodan!");
 
         }
 
@@ -1131,6 +1199,7 @@ namespace ETFTrans.ViewModel
         private bool tabAutobusiSelected = true;
         private List<Autobus> dataGridAutobusi;
         private Autobus selectedAutobusInDataGrid;
+        private string UserName1;
         
 
         public string MarkaAutobusa

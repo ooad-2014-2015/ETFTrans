@@ -9,11 +9,7 @@ namespace ETFTrans.Model
 {
     public class RadnikNaSalteruProdaja : Uposlenik
     {
-        //public int UposlenikId { get; set; }
 
-        public override bool ValidirajLogIn(string userName, string password)
-        {
-            return BazaFunkcije.ValidirajLogInRadnikProdaja(userName, password);
-        }
+       
     }
 }

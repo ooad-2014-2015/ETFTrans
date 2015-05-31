@@ -16,7 +16,7 @@ namespace ETFTrans.Model
         private bool _pet;
         private bool _sub;
         private bool _ned;
-
+      
         public bool pon
         {
             set { _pon = value; }

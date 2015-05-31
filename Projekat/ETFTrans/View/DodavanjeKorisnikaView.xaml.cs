@@ -15,17 +15,13 @@ using System.Windows.Shapes;
 namespace ETFTrans.View
 {
     /// <summary>
-    /// Interaction logic for ClanUpraveView.xaml
+    /// Interaction logic for DodavanjeKorisnikaView.xaml
     /// </summary>
-    public partial class ClanUpraveView : Window
+    public partial class DodavanjeKorisnikaView : Window
     {
-        
-
-        public ClanUpraveView()
+        public DodavanjeKorisnikaView()
         {
             InitializeComponent();
         }
-
-        
     }
 }

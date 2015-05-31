@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ETFTrans.Model
+namespace ETFTrans.ViewModel
 {
-    public class Vozac : Uposlenik
+    public class DirektorViewModel : BaseViewModel
     {
-        public virtual List<Autobus> voziAutobuse { get; set; }
-       
+
     }
 }

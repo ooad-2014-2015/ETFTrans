@@ -14,7 +14,7 @@ namespace ETFTrans.Model
 
         public string odredisteLinije { get; set; }
         public decimal cijenaZaGlavnoOdrediste { get; set; }
-        public virtual DaniVoznjeLinije daniVoznje {get; set; } 
+        public virtual DaniVoznjeLinije daniVoznje {get; set; }
 
         public int brojSlobodnihMjesta { get; set; }
         public int brojRaspolozivihMjesta {get; set;}
@@ -22,7 +22,9 @@ namespace ETFTrans.Model
         public string tipLinije { get; set; }
 
         public virtual List<Stanica> staniceLinije { get; set; }
+        public virtual List<Karta> karteZaLiniju { get; set; }
         public virtual List<Autobus> autobusiNaLiniji { get; set; }
+        public virtual List<DatumPolaskaLinije> datumiPolaskaLinije { get; set; }
 
     }
 }

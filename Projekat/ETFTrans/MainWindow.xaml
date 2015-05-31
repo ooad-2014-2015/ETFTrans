@@ -2,20 +2,23 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:ETFTrans.ViewModel"
-        Title="Log In" Height="267.573" Width="394.384" ResizeMode="CanMinimize">
-    <Grid Margin="0,-25,4,-2">
+        Title="Log In" Height="288.469" Width="330.206" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen" Icon="Image/ETFTransStanica.jpg" >
+    <Window.Background>
+        <ImageBrush ImageSource="/Image/ETFTransStanica.jpg" />
+    </Window.Background>
+    <Grid Margin="0,0,-6,-1">
+
         <Grid.DataContext>
             <local:LoginViewModel/>
         </Grid.DataContext>
-        <TextBox x:Name="txtBoxUserName" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Margin="128,59,0,0"  Text="{Binding UserName}">
+        <TextBox x:Name="txtBoxUserName" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" Margin="159,114,0,0"  Text="{Binding UserName}">
         </TextBox>
 
-        <Label Content="User name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,55,0,0" Height="27"/>
-        <TextBox x:Name="txtBox_Password" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="{Binding Password}" VerticalAlignment="Top" Width="120" Margin="128,105,0,0" IsUndoEnabled="False" ClipToBounds="True"/>
-        <Label Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="54,101,0,0" Height="26"/>
-        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="275,219,0,0" Command="{Binding KlikNa_LogIn}" Height="21"/>
-        <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="128,148,0,0" ItemsSource="{Binding TipoviZaposlenika}" SelectedIndex="{Binding SelectedIndexTipZaposlenika}" IsReadOnly="True" DisplayMemberPath="ime" Height="22"/>
-        <Label Content="Prijava kao:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="47,144,0,0" RenderTransformOrigin="0.011,0.418" Height="26"/>
+        <Label Content="User name:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="55,114,0,0" Height="27" Background="{x:Null}" FontWeight="Bold" FontFamily="Sitka Small" Foreground="White"/>
+        <TextBox x:Name="txtBox_Password" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap" Text="{Binding Password}" VerticalAlignment="Top" Width="96" Margin="159,159,0,0" IsUndoEnabled="False" ClipToBounds="True"/>
+        <Label Content="Password:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="62,159,0,0" Height="26" FontFamily="Sitka Small" FontWeight="Bold" Background="{x:Null}" Foreground="#FFFBFBFB"/>
+        <Button Content="Prijava" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="225,209,0,0" Command="{Binding KlikNa_LogIn}" Height="21" FontWeight="Bold" Background="{x:Null}"/>
+        <Label Content="Dobrodošli u ETFTrans!" HorizontalAlignment="Left" Margin="84,59,0,0" VerticalAlignment="Top" FontFamily="Sitka Small" FontWeight="Bold" Width="171" Background="{x:Null}" Foreground="#FF0A0A0A"/>
 
     </Grid>
 </Window>

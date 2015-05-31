@@ -11,155 +11,17 @@ namespace ETFTrans.DataAcces
 {
     public class BazaFunkcije
     {
-        public static void registrujLogInUposlenika(int id)
+        public static void registrujLogInUposlenika(string UserName)
         {
             using (ETFTransBaza db = new ETFTransBaza())
             {
-        
-                Log noviLog = new Log() { datum = DateTime.Now.Date.Date, tip = "Prijava", vrijeme = DateTime.Now.ToShortTimeString() };
-               
-                foreach (Uposlenik x in db.uposlenici.ToList<Uposlenik>())
-                {
-                    if(x.UposlenikId == id)
-                    {
-                        x.logoviUposlenika.Add(noviLog);
-                        db.SaveChanges();
-                        break;
-                    }
-                }
-                
+
+                    Log noviLog = new Log() { datum = DateTime.Now.Date.Date, tip = "Prijava", vrijeme = DateTime.Now.ToShortTimeString() };
+
+                    db.uposlenici.First(i => i.userName == UserName).logoviUposlenika.Add(noviLog);
+                    db.SaveChanges();          
             }
            
-        }
-        public static bool ValidirajLogInClanUprave(string userName, string password)
-        {
-            using (ETFTransBaza db = new ETFTransBaza())
-            {
-                try
-                {
-                   
-                        List<ClanUprave> ClanoviUprave = db.clanoviUprave.ToList<ClanUprave>();
-                        foreach (ClanUprave x in ClanoviUprave)
-                        {
-                            if (x.userName == userName && x.password == password)
-                            {
-                                registrujLogInUposlenika(x.UposlenikId);
-                                return true;
-                            }
-                        }
-                        return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    return false;
-                }
-
-            }
-        }
-        public static bool ValidirajLogInRadnikProdaja(string userName, string password)
-        {
-            using (ETFTransBaza db = new ETFTransBaza())
-            {
-                try
-                {
-                    List<RadnikNaSalteruProdaja> radnici = db.radniciNaSalteruProdaja.ToList<RadnikNaSalteruProdaja>();
-
-                    foreach (RadnikNaSalteruProdaja x in radnici)
-                    {
-                        if (x.userName == userName && x.password == password)
-                        {
-                            registrujLogInUposlenika(x.UposlenikId);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    return false;
-                }
-
-            }
-        }
-        public static bool ValidirajLogInRadnikPretraga(string userName, string password)
-        {
-            using (ETFTransBaza db = new ETFTransBaza())
-            {
-                try
-                {
-
-                    List<RadnikNaSalteruPretraga> radnici = db.radniciNaSalteruPretraga.ToList<RadnikNaSalteruPretraga>();
-                    foreach (RadnikNaSalteruPretraga x in radnici)
-                    {
-                        if (x.userName == userName && x.password == password)
-                        {
-                            registrujLogInUposlenika(x.UposlenikId);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    return false;
-                }
-
-            }
-        }
-        public static bool ValidirajLogInOtpremnik(string userName, string password)
-        {
-            using (ETFTransBaza db = new ETFTransBaza())
-            {
-                try
-                {
-
-                    List<Otpremnik> radnici = db.otpremnici.ToList<Otpremnik>();
-                    foreach (Otpremnik x in radnici)
-                    {
-                        if (x.userName == userName && x.password == password)
-                        {
-                            registrujLogInUposlenika(x.UposlenikId);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    return false;
-                }
-
-            }
-        }
-        public static bool ValidirajLogInDirektor(string userName, string password)
-        {
-            using (ETFTransBaza db = new ETFTransBaza())
-            {
-                try
-                {
-
-                    List<Direktor> radnici = db.direktori.ToList<Direktor>();
-                    foreach (Direktor x in radnici)
-                    {
-                        if (x.userName == userName && x.password == password)
-                        {
-                            registrujLogInUposlenika(x.UposlenikId);
-                            return true;
-                        }
-                    }
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    return false;
-                }
-
-            }
         }
         public static void upisiAutobusUBazu(Autobus x)
         {
@@ -182,7 +44,7 @@ namespace ETFTrans.DataAcces
         {
             using(ETFTransBaza db = new ETFTransBaza())
             {
-                return db.Autobusi.ToList<Autobus>();
+                return db.Autobusi.Include("linija").ToList<Autobus>();
             }
         }
         public static List<Autobus> GetAutobusiSaVozacem()
@@ -312,7 +174,18 @@ namespace ETFTrans.DataAcces
                 {
                     
                     Linija a = db.Linije.First(i => i.LinijaID == x.LinijaID);
-                    db.Autobusi.First(i => i.linija.LinijaID == a.LinijaID).linija = null;
+                    foreach(Autobus bus in db.Autobusi.Where(i => i.linija.LinijaID == a.LinijaID))
+                    {
+                        bus.linija = null;
+                    }
+                    foreach(dolazakOdlazakAutobusa d in db.otpremljeniAutobusi.Where(i=>i.linija.LinijaID == x.LinijaID))
+                    {
+                        d.linija = null;
+                    }
+                    foreach(Karta k in db.Karte.Where(i=>i.kartaZaLiniju.LinijaID == x.LinijaID))
+                    {
+                        k.kartaZaLiniju = null;
+                    }                   
                     DaniVoznjeLinije dani = a.daniVoznje;
                     DaniVoznjeLinije temp = db.daniVoznjeZaLinije.First(i => i.DaniVoznjeLinijeId == dani.DaniVoznjeLinijeId);
                     db.daniVoznjeZaLinije.Remove(temp);
@@ -409,7 +282,6 @@ namespace ETFTrans.DataAcces
             }
         }
 
-
         internal static void UpdateOdredistaSvihLinijaKojeSuSadrzavaleStanicu(List<Linija> listaLinija)
         {
             try
@@ -486,7 +358,12 @@ namespace ETFTrans.DataAcces
             {
                 using (ETFTransBaza db = new ETFTransBaza())
                 {
+                    Log b;
                     x = db.uposlenici.First(i => i.UposlenikId == a.UposlenikId);
+                    foreach(Log z in db.logs.Where(y => y.uposlenik.UposlenikId == a.UposlenikId))
+                    {
+                        db.logs.Remove(z);
+                    }
                     db.uposlenici.Remove(x);
                     db.SaveChanges();
                 }
@@ -503,7 +380,14 @@ namespace ETFTrans.DataAcces
             {
                 using (ETFTransBaza db = new ETFTransBaza())
                 {
-                    
+
+
+                    db.uposlenici.First(i => i.UposlenikId == x.UposlenikId).ime = x.ime;
+                    db.uposlenici.First(i => i.UposlenikId == x.UposlenikId).prezime = x.prezime;
+                    db.uposlenici.First(i => i.UposlenikId == x.UposlenikId).ugovorDo = x.ugovorDo;
+                    db.uposlenici.First(i => i.UposlenikId == x.UposlenikId).datumZaposlenja = x.datumZaposlenja;
+                    db.uposlenici.First(i => i.UposlenikId == x.UposlenikId).plata = x.plata;
+                    db.SaveChanges();
                 }
             }
             catch (Exception e)
@@ -525,6 +409,234 @@ namespace ETFTrans.DataAcces
             {
                 MessageBox.Show(e.ToString());
                 return new List<Uposlenik>();
+            }
+        }
+
+        internal static List<Linija> dajLinijeZaOdrediste(Stanica odrediste)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    List<Linija> linije = db.stanice.First(x => x.StanicaId == odrediste.StanicaId).stanicaZaLinije.ToList<Linija>();
+                    foreach(Linija z in linije)
+                    {
+                        z.daniVoznje = db.daniVoznjeZaLinije.First(i=>i.DaniVoznjeLinijeId == z.LinijaID);
+                        List<DatumPolaskaLinije> dani = db.datumiPolaskaLinija.Where(i => i.datumPolaskaZaLiniju.LinijaID == z.LinijaID).ToList<DatumPolaskaLinije>();
+                        
+                        z.datumiPolaskaLinije = new List<DatumPolaskaLinije>();
+                        
+                        foreach (DatumPolaskaLinije d in dani)
+                            z.datumiPolaskaLinije.Add(d);
+                        if (z.datumiPolaskaLinije.Count == 0)
+                            z.datumiPolaskaLinije.Add(new DatumPolaskaLinije());
+                    } 
+                    return linije;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return new List<Linija>();
+            }
+        }
+        internal static Korisnik dajKorisnika(string IDKorisnika)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    return db.korisnici.First(i => i.userId == IDKorisnika);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Korisnik ne postoji!");
+                return new Korisnik();
+            }
+        }
+
+        internal static List<Korisnik> dajKorisnike()
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    return db.korisnici.Include("karteKorisnika").ToList<Korisnik>();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return new List<Korisnik>();
+            }
+        }
+
+        internal static void spremiKartuZaLinijuIKorisnika(Karta novaKarta, Linija p, Korisnik korisnik, bool postojiDatum, int datumID)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    db.Linije.First(i => i.LinijaID == p.LinijaID).karteZaLiniju.Add(novaKarta);
+
+                    if(postojiDatum)
+                    {
+                        db.datumiPolaskaLinija.First(x => x.DatumPolaskaLinijeId == datumID).brojSlobodnihMjesta--;
+                    }
+                    else
+                    {
+                        DateTime datumPolaska1 = DateTime.Parse(novaKarta.kartaZaDatum);
+                        DatumPolaskaLinije noviDatumPolaska = new DatumPolaskaLinije()
+                        {
+                            datumPolaska = datumPolaska1.Date,
+                            brojSlobodnihMjesta = p.brojRaspolozivihMjesta - 1
+                        };
+                        db.Linije.First(i => i.LinijaID == p.LinijaID).datumiPolaskaLinije.Add(noviDatumPolaska);
+                    }
+                    
+                    if(korisnik != null)
+                    {
+                        db.korisnici.First(x => x.KorisnikId == korisnik.KorisnikId).karteKorisnika.Add(novaKarta);
+                    }
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {         
+                MessageBox.Show(e.ToString());
+            }
+        }
+
+
+
+
+
+        internal static void upisiKorisnikaUBazu(Korisnik korisnik)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    db.korisnici.Add(korisnik);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+           
+            }
+        }
+
+        internal static List<RezervisanaKarta> dajRezervisaneKarte()
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    List<RezervisanaKarta> lista = db.rezervisaneKarte.Include("korisnik").Include("kartaZaLiniju").ToList<RezervisanaKarta>();
+                    return lista;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return new List<RezervisanaKarta>();
+
+            }
+        }
+
+        internal static void naplatiRezervisanuKartu(ProdanaKarta novaKarta, Karta x)
+        {
+            
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    
+                    db.Linije.First(i => i.LinijaID == x.kartaZaLiniju.LinijaID).karteZaLiniju.Add(novaKarta);
+
+                   /* if(x.korisnik != null)
+                    db.korisnici.First(i => i.KorisnikId == x.korisnik.KorisnikId).karteKorisnika.Add(novaKarta);
+                    */
+                    bool nasao=false;
+                    foreach (Korisnik k in db.korisnici.Include("karteKorisnika").ToList<Korisnik>())
+                    {
+                        if(k.karteKorisnika != null)
+                        foreach (Karta karta in k.karteKorisnika)
+                        {
+                            if (x.KartaId == karta.KartaId)
+                            {
+                                k.karteKorisnika.Add(novaKarta);
+                                nasao = true;
+                                break;
+                            }
+
+                        }
+                        if (nasao) break;
+                    }
+
+
+
+                    db.rezervisaneKarte.Remove(db.rezervisaneKarte.Where(i => i.KartaId == x.KartaId).FirstOrDefault());
+                    db.SaveChanges();
+                    
+                }
+          
+        }
+
+
+
+        internal static void spremiOtpremu(dolazakOdlazakAutobusa novaOtprema, Autobus bus, Linija linija, Otpremnik otpremnik, bool domaci)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    if (domaci)
+                    {
+                        db.otpremljeniAutobusi.Add(novaOtprema);
+                        db.SaveChanges();
+                        db.otpremljeniAutobusi.First(i => i.dolazakOdlazakAutobusaId == novaOtprema.dolazakOdlazakAutobusaId).autobus = db.Autobusi.First(j => j.AutobusID == bus.AutobusID);
+                       if(linija != null)
+                        db.otpremljeniAutobusi.First(i => i.dolazakOdlazakAutobusaId == novaOtprema.dolazakOdlazakAutobusaId).linija = db.Linije.First(j => j.LinijaID == linija.LinijaID);
+                    }
+                    else
+                        db.otpremljeniAutobusi.Add(novaOtprema);
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+
+            }
+        }
+
+        internal static void registruLogOutUposlenika(string UserName)
+        {
+            using (ETFTransBaza db = new ETFTransBaza())
+            {
+
+                Log noviLog = new Log() { datum = DateTime.Now.Date.Date, tip = "Odjava", vrijeme = DateTime.Now.ToShortTimeString() };
+
+                db.uposlenici.First(i => i.userName == UserName).logoviUposlenika.Add(noviLog);
+                db.SaveChanges();
+
+            }
+        }
+
+        internal static Uposlenik dajUposlenika(string UserName, string Password)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    return db.uposlenici.First(i => i.userName == UserName && i.password == Password);
+                }
+            }
+            catch (Exception e)
+            {     
+                return null;
             }
         }
     }

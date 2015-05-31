@@ -32,10 +32,16 @@ namespace ETFTrans
                 using (ETFTransBaza db = new ETFTransBaza())
                 {
                   /*
-                    ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };     
-                    db.uposlenici.Add(noviClan);
+                    RadnikNaSalteruProdaja noviClan1 = new RadnikNaSalteruProdaja() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };     
+                    db.uposlenici.Add(noviClan1);
                     db.SaveChanges();
-                   */ 
+                   /* DatumPolaskaLinije noviDatum = new DatumPolaskaLinije() { brojSlobodnihMjesta = 32, datumPolaska = DateTime.Today.Date.AddMonths(1).AddDays(-3) };
+                    db.Linije.First(i => i.LinijaID == 1).datumiPolaskaLinije.Add(noviDatum);
+                    db.SaveChanges();*/
+                   /* ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };
+                    db.uposlenici.Add(noviClan);
+                    db.SaveChanges();*/
+                   
                 }
             }
             catch(Exception e)

@@ -53,25 +53,45 @@ namespace ETFTrans.ViewModel
         public LoginViewModel()
         {
             SelectedIndexTipZaposlenika = 0;
-            klikNa_btnLogIn = new RelayCommand(new Action(ValidirajLogIn));
+            klikNa_btnLogIn = new RelayCommand(new Action(ValidirajLogInZaUposlenika));
       
             mainWindow = Application.Current.MainWindow;
         }
-        private void ValidirajLogIn()
-        {
 
-            if (tipoviZaposlenika[SelectedIndexTipZaposlenika].ValidirajLogIn(UserName,Password))
+        private void ValidirajLogInZaUposlenika()
+        {
+            Uposlenik u = BazaFunkcije.dajUposlenika(UserName, Password);
+
+            if(u == null)
             {
-                otvoriOdgovarajuciView(tipoviZaposlenika[SelectedIndexTipZaposlenika].ime, UserName);      
+                MessageBox.Show("Korisnik ne postoji!!", "Greska!", MessageBoxButton.OK, MessageBoxImage.Error);
+                UserName = "";
+                Password = "";
+                return;
             }
-            else
-                MessageBox.Show("Korisnik ne postoji!!", "Greska!", MessageBoxButton.OK,MessageBoxImage.Error);
+
+            if (u is ClanUprave)
+                SelectedIndexTipZaposlenika = 0;
+            if (u is Direktor)
+                SelectedIndexTipZaposlenika = 1;
+            if (u is Otpremnik)
+                SelectedIndexTipZaposlenika = 2;
+            if (u is RadnikNaSalteruProdaja)
+                SelectedIndexTipZaposlenika = 3;
+            if (u is RadnikNaSalteruPretraga)
+                SelectedIndexTipZaposlenika = 4;
+            BazaFunkcije.registrujLogInUposlenika(UserName);
+            otvoriOdgovarajuciView(tipoviZaposlenika[SelectedIndexTipZaposlenika].ime, UserName);
+               
+            
         }
         private void otvoriOdgovarajuciView(string tipZaposlenika, string userName)
         {
             if(tipZaposlenika == "Clan uprave")
             {
                 ClanUpraveView view = new ClanUpraveView();
+                ClanUpraveViewModel dijete = new ClanUpraveViewModel(UserName, view);
+                view.DataContext = dijete;
                 mainWindow.Close();
                 view.Show();
             }
@@ -81,11 +101,20 @@ namespace ETFTrans.ViewModel
             }
             else if (tipZaposlenika == "Radnik u prodaji")
             {
+                ProdajaKarataView view = new ProdajaKarataView();
+                ProdajaKarataViewModel dijete = new ProdajaKarataViewModel(UserName, view);
+                view.DataContext = dijete;
+                mainWindow.Close();
+                view.Show();
 
             }
             else if(tipZaposlenika == "Otpremnik")
             {
-
+                OtpremnikView view = new OtpremnikView();
+                OtpremikViewModel dijete = new OtpremikViewModel(UserName, view);
+                view.DataContext = dijete;
+                mainWindow.Close();
+                view.Show();
             }
             else if(tipZaposlenika == "Radnik na pretrazi")
             {

@@ -13,6 +13,8 @@ namespace ETFTrans.Model
         public string tip { get; set; }
         public DateTime datum { get; set; }
 
+        public virtual Uposlenik uposlenik { get; set; }
+
 
     }
 }

@@ -16,7 +16,6 @@ namespace ETFTrans.Model
         public string registracija { get; set; }
 
         public int brojRaspolozivihMjesta { get; set; }
-
         public virtual Linija linija { get; set; }
         public virtual Vozac vozac { get; set; }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ETFTrans.DataAcces;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -24,7 +25,8 @@ namespace ETFTrans.ViewModel
         {
             btnOdjava = new RelayCommand(odjavaUposlenika);
         }
-
+        public static Window window;
+        
         private ICommand btnOdjava;
         public static string prijavljeniUser;
         public ICommand BtnOdjava
@@ -41,7 +43,17 @@ namespace ETFTrans.ViewModel
         }
         public void odjavaUposlenika()
         {
-            MessageBox.Show("Not Implemented in BaseViewModel!");
+            window.Close();
+        }
+        public void closeHandler1(object sender,  CancelEventArgs e)
+        {
+            MessageBoxResult dr = MessageBox.Show("Ovo će vas odjaviti.\nDa li ste sigurni? ","Poruka",MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            if (dr == MessageBoxResult.OK)
+            {
+                BazaFunkcije.registruLogOutUposlenika(prijavljeniUser);
+            }
+            else
+                e.Cancel = true;        
         }
     }
 }

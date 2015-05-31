@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace ETFTrans.Model
 {
-    public class Vozac : Uposlenik
+    public class RezervisanaKarta : Karta
     {
-        public virtual List<Autobus> voziAutobuse { get; set; }
-       
+        public string naIme { get; set; }
     }
 }

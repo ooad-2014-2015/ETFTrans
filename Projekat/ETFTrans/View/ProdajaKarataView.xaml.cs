@@ -15,17 +15,14 @@ using System.Windows.Shapes;
 namespace ETFTrans.View
 {
     /// <summary>
-    /// Interaction logic for ClanUpraveView.xaml
+    /// Interaction logic for ProdajaKarataView.xaml
     /// </summary>
-    public partial class ClanUpraveView : Window
+    public partial class ProdajaKarataView : Window
     {
-        
-
-        public ClanUpraveView()
+        public ProdajaKarataView()
         {
             InitializeComponent();
         }
 
-        
     }
 }

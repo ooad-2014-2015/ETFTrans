@@ -26,7 +26,6 @@ namespace ETFTrans.Model
 
         public virtual List<Log> logoviUposlenika { get; set; }
 
-        public abstract bool ValidirajLogIn(string userName, string password);
 
     }
 }

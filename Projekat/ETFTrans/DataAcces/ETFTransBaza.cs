@@ -16,6 +16,8 @@ namespace ETFTrans.DataAcces
         public DbSet<Autobus> Autobusi { get; set; }
         public DbSet<Linija> Linije { get; set; }
         public DbSet<Karta> Karte { get; set; }
+        public DbSet<ProdanaKarta> prodaneKarte { get; set; }
+        public DbSet<RezervisanaKarta> rezervisaneKarte { get; set; }
         public DbSet<Vozac> Vozaci { get; set; }
         public DbSet<RadnikNaSalteruPretraga> radniciNaSalteruPretraga { get; set; }
         public DbSet<RadnikNaSalteruProdaja> radniciNaSalteruProdaja { get; set; }
@@ -24,6 +26,7 @@ namespace ETFTrans.DataAcces
         public DbSet<ClanUprave> clanoviUprave { get; set; }
 
         public DbSet<Direktor> direktori { get; set; }
+        public DbSet<DatumPolaskaLinije> datumiPolaskaLinija { get; set; }
 
         public DbSet<dolazakOdlazakAutobusa> otpremljeniAutobusi { get; set; }
 
@@ -32,6 +35,7 @@ namespace ETFTrans.DataAcces
         public DbSet<Uposlenik> uposlenici { get; set; }
 
         public DbSet<DaniVoznjeLinije> daniVoznjeZaLinije { get; set; }
+        public DbSet<Korisnik> korisnici { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder model)
         {
