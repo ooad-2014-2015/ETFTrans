@@ -38,9 +38,9 @@ namespace ETFTrans
                    /* DatumPolaskaLinije noviDatum = new DatumPolaskaLinije() { brojSlobodnihMjesta = 32, datumPolaska = DateTime.Today.Date.AddMonths(1).AddDays(-3) };
                     db.Linije.First(i => i.LinijaID == 1).datumiPolaskaLinije.Add(noviDatum);
                     db.SaveChanges();*/
-                   /* ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };
+                    ClanUprave noviClan = new ClanUprave() { userName = "admin", password = "admin", ime = "Ragib", prezime = "Smajic", datumRodenja = DateTime.Now, datumZaposlenja = DateTime.Now, ugovorDo = DateTime.Now };
                     db.uposlenici.Add(noviClan);
-                    db.SaveChanges();*/
+                    db.SaveChanges();
                    
                 }
             }

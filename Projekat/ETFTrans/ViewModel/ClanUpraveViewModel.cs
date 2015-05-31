@@ -1097,12 +1097,22 @@ namespace ETFTrans.ViewModel
                 }
 
                 sortirajStanice(tempStaniceZaLiniju);
-              
+                DaniVoznjeLinije daniVoznjeZaLiniju = new DaniVoznjeLinije()
+                {
+                    cet = daniVoznjeLinije.cet,
+                    pet = daniVoznjeLinije.pet,
+                    sub = daniVoznjeLinije.sub,
+                    sri = daniVoznjeLinije.sri,
+                    uto = daniVoznjeLinije.uto,
+                    pon = daniVoznjeLinije.pon,
+                    ned = daniVoznjeLinije.ned
+                };
+
                 Linija novaLinija = new Linija()
                 {
                     odredisteLinije = tempStaniceZaLiniju[tempStaniceZaLiniju.Count-1].nazivGrada,
                     cijenaZaGlavnoOdrediste = tempStaniceZaLiniju[tempStaniceZaLiniju.Count-1].cijenaVoznje,
-                    daniVoznje = daniVoznjeLinije,
+                    daniVoznje = daniVoznjeZaLiniju,
                     vrijemeDolaska = DateTime.Parse(VrijemeDolaskaLinije),
                     vrijemePolaska = DateTime.Parse(VrijemePolaskaLinije)
                 };
@@ -1114,10 +1124,12 @@ namespace ETFTrans.ViewModel
                 novaLinija.brojSlobodnihMjesta = novaLinija.brojRaspolozivihMjesta;
 
                 BazaFunkcije.dodajLinijuUBazu(novaLinija, tempAutobusiZaLiniju, tempStaniceZaLiniju);
+                
                 UpdateDataGridLinijama();
                 UpdateListBoxAutobusima();
                 SelectedAutobusZaLiniju = null;
                 tempStaniceZaLiniju.Clear();
+                tempAutobusiZaLiniju.Clear();
                 VrijemePolaskaLinije = "";
                 VrijemeDolaskaLinije = "";
                 postaviDaneVoznjeNaFalse(daniVoznjeLinije);
@@ -1128,7 +1140,16 @@ namespace ETFTrans.ViewModel
 
         private void postaviDaneVoznjeNaFalse(DaniVoznjeLinije daniVoznjeLinije)
         {
-            daniVoznjeLinije = new DaniVoznjeLinije();
+            daniVoznjeLinije = new DaniVoznjeLinije()
+            {
+                pon = false,
+                uto = false,
+                sri = false,
+                cet = false,
+                pet = false,
+                sub = false,
+                ned = false
+            };
         }
 
         

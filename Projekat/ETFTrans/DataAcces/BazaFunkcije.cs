@@ -185,10 +185,12 @@ namespace ETFTrans.DataAcces
                     foreach(Karta k in db.Karte.Where(i=>i.kartaZaLiniju.LinijaID == x.LinijaID))
                     {
                         k.kartaZaLiniju = null;
-                    }                   
+                    }
+                    List<DatumPolaskaLinije> datumi = db.Linije.First(i=>i.LinijaID == a.LinijaID).datumiPolaskaLinije;
+                    if(datumi != null)
+                    db.datumiPolaskaLinija.RemoveRange(datumi);
                     DaniVoznjeLinije dani = a.daniVoznje;
-                    DaniVoznjeLinije temp = db.daniVoznjeZaLinije.First(i => i.DaniVoznjeLinijeId == dani.DaniVoznjeLinijeId);
-                    db.daniVoznjeZaLinije.Remove(temp);
+                    db.daniVoznjeZaLinije.Remove(db.daniVoznjeZaLinije.First(i => i.DaniVoznjeLinijeId == dani.DaniVoznjeLinijeId));
                     db.Linije.Remove(a);
                     db.SaveChanges();
                 }
@@ -508,10 +510,6 @@ namespace ETFTrans.DataAcces
             }
         }
 
-
-
-
-
         internal static void upisiKorisnikaUBazu(Korisnik korisnik)
         {
             try
@@ -639,5 +637,54 @@ namespace ETFTrans.DataAcces
                 return null;
             }
         }
+
+        internal static List<Log> generisiIzvjestajIzmeduDatuma(DateTime pocetniDatum, DateTime krajnjiDatum)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    List<Log> logovi = db.logs.Include("uposlenik").OrderBy(x => x.uposlenik.UposlenikId).ToList<Log>();
+                    List<Log> zaVratit = new List<Log>();
+                    foreach(Log x in logovi)
+                    {
+                        if (x.datum >= pocetniDatum && x.datum <= krajnjiDatum)
+                            zaVratit.Add(x);
+                    }
+                    return zaVratit;
+                    
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return null;
+            }
+        }
+
+        internal static List<Log> generisiIzvjestajNaDatum(DateTime SelectedDatum)
+        {
+            try
+            {
+                using (ETFTransBaza db = new ETFTransBaza())
+                {
+                    List<Log> logovi = db.logs.Include("uposlenik").OrderBy(x => x.uposlenik.UposlenikId).ToList<Log>();
+                    List<Log> zaVratit = new List<Log>();
+                    foreach (Log x in logovi)
+                    {
+                        if (x.datum.Date == SelectedDatum.Date)
+                            zaVratit.Add(x);
+                    }
+                    return zaVratit;                    
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.ToString());
+                return null;
+            }
+        }
+
+     
     }
 }

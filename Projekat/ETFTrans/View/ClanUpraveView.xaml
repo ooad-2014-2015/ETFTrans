@@ -24,8 +24,8 @@
                     <Label Content="Br. raspolozivih mjesta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,216,0,0"/>
                     <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,263,0,0" Width="121" SelectedDate="{Binding DatumRegistracijeAutobusa}"/>
                     <Label Content="Datum registracije:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39,262,0,0"/>
-                    <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,175,0,0" Width="121" IsTodayHighlighted="True" SelectedDateFormat="Short" SelectedDate="{Binding DatumProizvodnjeAutobusa}"/>
-                    <Button Content="Dodaj autobus" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="198,354,0,0" Command="{Binding BtnDodajAutobus}"/>
+                    <DatePicker HorizontalAlignment="Left" VerticalAlignment="Top" Margin="172,173,0,0" Width="121" IsTodayHighlighted="True" SelectedDateFormat="Short" SelectedDate="{Binding DatumProizvodnjeAutobusa}"/>
+                    <Button Content="Dodaj autobus" HorizontalAlignment="Left" VerticalAlignment="Top" Width="94" Margin="310,378,0,0" Command="{Binding BtnDodajAutobus}"/>
                     <GroupBox Header="Izmjena/Brisanje" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="476,68,0,0" Height="340" Width="568">
                         <Button Content="Izmjeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="69" Margin="398,294,0,0" Command="{Binding BtnIzmjeniAutobus}"/>
                     </GroupBox>
@@ -37,9 +37,9 @@
                             <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding DataGridAutobusi}" SelectedItem="{Binding SelectedAutobusInDataGrid}" Margin="-107,104,95,-110">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Marka" Binding="{Binding marka}"/>
-                                    <DataGridTextColumn Header="Datum Registracije" Binding="{Binding datumRegistracije}"/>
+                                    <DataGridTextColumn Header="Datum Registracije" Binding="{Binding datumRegistracije, StringFormat=dd.MM.yyyy}"/>
                                     <DataGridTextColumn Header="Registracija" Binding="{Binding registracija}"/>
-                                    <DataGridTextColumn Header="Datum Proizvodnje" Binding="{Binding datumProizvodnje}"/>
+                                    <DataGridTextColumn Header="Datum Proizvodnje" Binding="{Binding datumProizvodnje, StringFormat=dd.MM.yyyy}"/>
                                     <DataGridTextColumn Header="Broj Raspolozivih Mjesta" Binding="{Binding brojRaspolozivihMjesta}"/>
                                     <DataGridTextColumn Header="Vozac" Binding="{Binding vozac.ime}"/>
                                 </DataGrid.Columns>

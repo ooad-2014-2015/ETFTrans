@@ -97,7 +97,12 @@ namespace ETFTrans.ViewModel
             }
             else if(tipZaposlenika == "Direktor")
             {
-                
+                DirektorView view = new DirektorView();
+                DirektorViewModel dijete = new DirektorViewModel(UserName, view);
+                view.DataContext = dijete;
+                view.Show();
+                mainWindow.Close();
+
             }
             else if (tipZaposlenika == "Radnik u prodaji")
             {
@@ -118,7 +123,11 @@ namespace ETFTrans.ViewModel
             }
             else if(tipZaposlenika == "Radnik na pretrazi")
             {
-
+                PretragaLinijaView view = new PretragaLinijaView();
+                PretragaLinijaViewModel dijete = new PretragaLinijaViewModel(UserName, view);
+                view.DataContext = dijete;
+                mainWindow.Close();
+                view.Show();
             }
 
         }
