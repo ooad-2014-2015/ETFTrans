@@ -1,0 +1,54 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="DataBoundApp1.Page1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0">
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FF211A1A" Offset="1"/>
+                <GradientStop Color="#FF785E5E"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="161*"/>
+            <ColumnDefinition Width="295*"/>
+        </Grid.ColumnDefinitions>
+        <phone:LongListSelector x:Name="odredistaLongList"
+        HorizontalAlignment="Left" Height="664" 
+        VerticalAlignment="Top" Width="435" 
+        Margin="10,84,0,0" ItemsSource="{Binding}" SelectionChanged="odredistaLongList_SelectionChanged" Grid.ColumnSpan="2">
+            <phone:LongListSelector.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="0,0,0,17">
+                        <TextBlock Text="{Binding}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}"/>
+
+                    </StackPanel>
+                </DataTemplate>
+            </phone:LongListSelector.ItemTemplate>
+        </phone:LongListSelector>
+        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="Odaberite odrediste:" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="69" Width="435" FontSize="32"/>
+
+
+    </Grid>
+
+
+
+
+
+
+
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+
+</phone:PhoneApplicationPage>

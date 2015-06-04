@@ -1,0 +1,17 @@
+﻿<configuration>
+    <system.serviceModel>
+        <bindings>
+            <basicHttpBinding>
+                <binding name="BasicHttpBinding_Iservis" maxBufferSize="2147483647"
+                    maxReceivedMessageSize="2147483647">
+                    <security mode="None" />
+                </binding>
+            </basicHttpBinding>
+        </bindings>
+        <client>
+            <endpoint address="http://192.168.0.105/WcfService/servis.svc"
+                binding="basicHttpBinding" bindingConfiguration="BasicHttpBinding_Iservis"
+                contract="ServiceReference1.Iservis" name="BasicHttpBinding_Iservis" />
+        </client>
+    </system.serviceModel>
+</configuration>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="ETFTransBaza" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DIINNOO\SQLEXPRESS;Initial Catalog=ETFTransBaza;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="ETFTransBazaConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.DaniVoznjeLinije" Member="DaniVoznjeLinijes">
+    <Type Name="DaniVoznjeLinije">
+      <Column Name="DaniVoznjeLinijeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="pon" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="uto" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="sri" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="cet" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="pet" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="sub" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ned" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="DaniVoznjeLinije_Linija" Member="Linijas" ThisKey="DaniVoznjeLinijeId" OtherKey="daniVoznje_DaniVoznjeLinijeId" Type="Linija" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DatumPolaskaLinije" Member="DatumPolaskaLinijes">
+    <Type Name="DatumPolaskaLinije">
+      <Column Name="DatumPolaskaLinijeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="datumPolaska" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="brojSlobodnihMjesta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="datumPolaskaZaLiniju_LinijaID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Linija_DatumPolaskaLinije" Member="Linija" ThisKey="datumPolaskaZaLiniju_LinijaID" OtherKey="LinijaID" Type="Linija" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Linija" Member="Linijas">
+    <Type Name="Linija">
+      <Column Name="LinijaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="vrijemePolaska" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="vrijemeDolaska" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="odredisteLinije" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="cijenaZaGlavnoOdrediste" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Column Name="brojSlobodnihMjesta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="brojRaspolozivihMjesta" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tipLinije" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="daniVoznje_DaniVoznjeLinijeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Linija_DatumPolaskaLinije" Member="DatumPolaskaLinijes" ThisKey="LinijaID" OtherKey="datumPolaskaZaLiniju_LinijaID" Type="DatumPolaskaLinije" />
+      <Association Name="Linija_StanicaLinija" Member="StanicaLinijas" ThisKey="LinijaID" OtherKey="Linija_LinijaID" Type="StanicaLinija" />
+      <Association Name="DaniVoznjeLinije_Linija" Member="DaniVoznjeLinije" ThisKey="daniVoznje_DaniVoznjeLinijeId" OtherKey="DaniVoznjeLinijeId" Type="DaniVoznjeLinije" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.StanicaLinija" Member="StanicaLinijas">
+    <Type Name="StanicaLinija">
+      <Column Name="Stanica_StanicaId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Linija_LinijaID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Linija_StanicaLinija" Member="Linija" ThisKey="Linija_LinijaID" OtherKey="LinijaID" Type="Linija" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+      <Association Name="Stanica_StanicaLinija" Member="Stanica" ThisKey="Stanica_StanicaId" OtherKey="StanicaId" Type="Stanica" IsForeignKey="true" DeleteRule="CASCADE" DeleteOnNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Stanica" Member="Stanicas">
+    <Type Name="Stanica">
+      <Column Name="StanicaId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="nazivGrada" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="cijenaVoznje" Type="System.Decimal" DbType="Decimal(18,2) NOT NULL" CanBeNull="false" />
+      <Association Name="Stanica_StanicaLinija" Member="StanicaLinijas" ThisKey="StanicaId" OtherKey="Stanica_StanicaId" Type="StanicaLinija" />
+    </Type>
+  </Table>
+</Database>
