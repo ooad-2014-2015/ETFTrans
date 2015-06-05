@@ -778,7 +778,8 @@ namespace ETFTrans.ViewModel
             BazaFunkcije.spremiKartuZaLinijuIKorisnika(novaKarta, SelectedLinija, SelectedKorisnik, daLiPostoji, datumPolaskaID);
             napuniDataGridLinijama();
             CijenaVoznje = "";
-            MessageBox.Show("Karta uspješno kupljena!");
+            MessageBox.Show("Sretan put i ugodnu vožnju želi vam ETFTRrans \n --------------------------------------------------- \n"+"Karta broj: "+novaKarta.KartaId.ToString()+"\n\n"+"Polazak: Sarajevo\n\nOdredište: "+novaKarta.odrediste + "\n\nDatum polaska: "+novaKarta.kartaZaDatum + "\n\nVrijeme polaska: "+novaKarta.vrijemePolaska+"\n\nCijena: "+novaKarta.cijenaKarte);
+            
 
         }
         private DateTime vratiDanIliDatum()
