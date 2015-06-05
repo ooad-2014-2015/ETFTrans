@@ -1,0 +1,26 @@
+﻿<Window x:Class="ETFTrans.View.PrikazStanicaView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Prikaz Stanica" Height="300" Width="585.075" Icon="/ETFTrans;component/Image/ETFTransStanica.jpg" ResizeMode="CanMinimize">
+    <Grid Margin="10,0,0,0">
+        <GroupBox Header="Prikaz stanica za liniju" HorizontalAlignment="Left" Margin="28,10,0,0" VerticalAlignment="Top" Height="235" Width="236">
+            <DataGrid HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="159" Width="205" ItemsSource="{Binding ListaStanica}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedStanica}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv stanice (Grada)" Binding="{Binding nazivGrada}"/>
+                    <DataGridTextColumn Header="Cijena vožnje" Binding="{Binding cijenaVoznje}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Button Content="Izbrisi stanicu sa linije" HorizontalAlignment="Left" Margin="123,208,0,0" VerticalAlignment="Top" Width="126" Command="{Binding BtnIzbrisiStanicuSaLinije}"/>
+        <GroupBox Header="Dodaj stanicu" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="285,10,0,0" Height="235" Width="243">
+            <DataGrid HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="158" Width="206" ItemsSource="{Binding StaniceIzBaze}" SelectedItem="{Binding SelectedStanicaIzBaze}" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Naziv stanice (Grada)" Binding="{Binding nazivGrada}"/>
+                    <DataGridTextColumn Header="Cijena vožnje" Binding="{Binding cijenaVoznje}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <Button Content="Dodaj stanicu" HorizontalAlignment="Left" Margin="422,209,0,0" VerticalAlignment="Top" Width="85" Command="{Binding BtnDodajStanicuNaLiniju}"/>
+
+    </Grid>
+</Window>

@@ -1,0 +1,103 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ViewModel="clr-namespace:ETFTrans.ViewModel" x:Class="ETFTrans.View.ProdajaKarataView"
+        Title="Prodaja" Height="531.008" Width="959.694" ResizeMode="CanMinimize" Background="#FFECE9E9" Icon="/ETFTrans;component/Image/ETFTransStanica.jpg">
+
+    <Grid Margin="0,0,2,-3">
+        <Grid.DataContext>
+            <ViewModel:ProdajaKarataViewModel/>
+        </Grid.DataContext>
+        <Menu HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="951">
+            <MenuItem Header="Opcije" Height="21">
+                <MenuItem Header="Odjava" HorizontalAlignment="Left" Width="140" Command="{Binding BtnOdjava}"/>
+            </MenuItem>
+        </Menu>
+        <ComboBox HorizontalAlignment="Left" Margin="138,93,0,0" VerticalAlignment="Top" Width="160" IsEditable="True"/>
+        <Label Content="Odredište:" HorizontalAlignment="Left" Margin="53,89,0,0" VerticalAlignment="Top"/>
+        <TabControl HorizontalAlignment="Left" Height="553" Margin="0,21,-91,-72" VerticalAlignment="Top" Width="1044">
+            <TabItem Header="Prodaja/Rezervacija" Margin="-2,0,-42,-6" IsSelected="{Binding TabProdajaSelected}">
+                <Grid Background="#FFE5E5E5" Margin="0,-24,3,23">
+                    <GroupBox Header="Prodaja/Rezervacija" HorizontalAlignment="Left" Margin="4,28,0,0" VerticalAlignment="Top" Height="442" Width="940">
+                        <Button Content="Napravi rezervaciju" HorizontalAlignment="Left" Margin="666,390,0,0" VerticalAlignment="Top" Width="118" IsEnabled="{Binding Rezervacija}" Command="{Binding BtnRezervisiKartu}"/>
+                    </GroupBox>
+                    <DatePicker HorizontalAlignment="Left" Margin="135,229,0,0" VerticalAlignment="Top" Width="158" SelectedDate="{Binding DatumPretrage}" IsEnabled="{Binding PretragaPoDatumu}"/>
+                    <GroupBox Header="Pretraga po danu:" HorizontalAlignment="Left" Margin="55,260,0,0" VerticalAlignment="Top" Height="137" Width="238"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="135,67,0,0" VerticalAlignment="Top" Width="158" IsEditable="True" ItemsSource="{Binding ListaOdredista}" DisplayMemberPath="nazivGrada" SelectedItem="{Binding SelectedOdrediste}"/>
+                    <GroupBox Header="Tip pretrage" HorizontalAlignment="Left" Margin="55,130,0,0" VerticalAlignment="Top" Height="80" Width="238"/>
+                    <Label Content="Datum:" HorizontalAlignment="Left" Margin="55,229,0,0" VerticalAlignment="Top"/>
+                    <RadioButton Content="Ponedjeljak" HorizontalAlignment="Left" Margin="89,289,0,0" VerticalAlignment="Top" IsChecked="{Binding Ponedjeljak}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="RadioButton" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <RadioButton Content="Utorak" HorizontalAlignment="Left" Margin="89,309,0,0" VerticalAlignment="Top" IsChecked="{Binding Utorak}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="Srijeda" HorizontalAlignment="Left" Margin="89,329,0,0" VerticalAlignment="Top" IsChecked="{Binding Srijeda}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="Cetvrtak" HorizontalAlignment="Left" Margin="89,349,0,0" VerticalAlignment="Top" IsChecked="{Binding Cetvrtak}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="Petak" HorizontalAlignment="Left" Margin="89,369,0,0" VerticalAlignment="Top" IsChecked="{Binding Petak}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="Subota" HorizontalAlignment="Left" Margin="197,292,0,0" VerticalAlignment="Top" IsChecked="{Binding Subota}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <RadioButton Content="Nedjelja" HorizontalAlignment="Left" Margin="197,312,0,0" VerticalAlignment="Top" IsChecked="{Binding Nedjelja}" IsEnabled="{Binding PretragaPoDanu}"/>
+                    <GroupBox Header="GroupBox" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <GroupBox Header="Moguće linije" HorizontalAlignment="Left" Margin="499,82,0,0" VerticalAlignment="Top" Height="315" Width="428"/>
+                    <DataGrid HorizontalAlignment="Left" Margin="516,107,0,0" VerticalAlignment="Top" Height="277" Width="397" AutoGenerateColumns="False" SelectedItem="{Binding SelectedLinija}" ItemsSource="{Binding LinijeOdredista}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Glavno odredište" Binding="{Binding odredisteLinije}" Width="100"/>
+                            <DataGridTextColumn Header="Vrijeme polaska" Binding="{Binding vrijemePolaska, StringFormat=hh:mm, Mode=OneWay}"  Width="100"/>
+                            <DataGridTextColumn Header="Vrijeme dolaska" Binding="{Binding vrijemeDolaska, StringFormat=hh:mm}" Width="93"/>
+                            <DataGridTextColumn Header="Br. Sl. Mjesta" Binding="{Binding brojSlobodnihMjesta}" Width="100"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Potvrdi kupovinu" HorizontalAlignment="Left" Margin="803,434,0,0" VerticalAlignment="Top" Width="124" Command="{Binding BtnKupiKartu}" IsEnabled="{Binding BtnPotvrdiKupovinuEnabled}"/>
+                    <CheckBox Content="Pretraga po danu" HorizontalAlignment="Left" Margin="89,161,0,0" VerticalAlignment="Top" IsChecked="{Binding PretragaPoDanu}"/>
+                    <CheckBox Content="Pretraga po datumu" HorizontalAlignment="Left" Margin="89,181,0,0" VerticalAlignment="Top" IsChecked="{Binding PretragaPoDatumu}"/>
+                    <GroupBox Header="Popust korisnik" HorizontalAlignment="Left" Margin="312,166,0,0" VerticalAlignment="Top" Height="158" Width="166">
+                        <ComboBox HorizontalAlignment="Left" Margin="40,34,0,0" VerticalAlignment="Top" Width="102" ItemsSource="{Binding ListaKorisnika}" IsEditable="True" DisplayMemberPath="userId" SelectedItem="{Binding SelectedKorisnik}" IsEnabled="{Binding RegistriraniKorisnik}"/>
+                    </GroupBox>
+                    <CheckBox Content="Registrovani korisnik" HorizontalAlignment="Left" Margin="330,195,0,0" VerticalAlignment="Top" IsChecked="{Binding RegistriraniKorisnik}"/>
+                    <Label Content="Id:" HorizontalAlignment="Left" Margin="330,215,0,0" VerticalAlignment="Top"/>
+                    <GroupBox Header="Popust" HorizontalAlignment="Left" Margin="312,82,0,0" VerticalAlignment="Top" Height="74" Width="166"/>
+                    <Button Content="Novi korisnik" HorizontalAlignment="Left" Margin="378,277,0,0" VerticalAlignment="Top" Width="81" RenderTransformOrigin="0.487,0.65" Command="{Binding BtnDodajKorisnika}"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="374,341,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="104" IsEnabled="False" Text="{Binding CijenaVoznje}"/>
+                    <Label Content="Odredište:" HorizontalAlignment="Left" Margin="55,67,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Student" HorizontalAlignment="Left" Margin="348,105,0,0" VerticalAlignment="Top" IsChecked="{Binding Student}"/>
+                    <CheckBox Content="Penzioner" HorizontalAlignment="Left" Margin="348,125,0,0" VerticalAlignment="Top" IsChecked="{Binding Penzioner}"/>
+                    <Label Content="Cijena:" HorizontalAlignment="Left" Margin="315,341,0,0" VerticalAlignment="Top"/>
+                    <CheckBox Content="Rezervacija" HorizontalAlignment="Left" Margin="55,105,0,0" VerticalAlignment="Top" IsChecked="{Binding Rezervacija}"/>
+                    <Label Content="Na ime:" HorizontalAlignment="Left" Margin="139,99,0,0" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="197,102,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" IsEnabled="{Binding RezervacijaNaImeEnabled}" Text="{Binding RezervacijaNaIme}"/>
+                    <Label Content="Ime:" HorizontalAlignment="Left" Height="26" Margin="321,242,0,0" VerticalAlignment="Top"/>
+                    <TextBox HorizontalAlignment="Left" Height="23" Margin="358,242,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="101" Text="{Binding ImeKorisnika}" IsEnabled="False"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Naplata rezervacija" Margin="41,0,-60,-6" IsSelected="{Binding RezervacijeTabSelected}">
+                <Grid Background="#FFE5E5E5" Margin="0,-28,2,23">
+                    <GroupBox Header="Kupac" HorizontalAlignment="Left" Margin="68,72,0,0" VerticalAlignment="Top" Height="130" Width="258"/>
+                    <GroupBox Header="Registrivani korisnik" HorizontalAlignment="Left" Margin="68,280,0,0" VerticalAlignment="Top" Height="128" Width="258"/>
+                    <GroupBox Header="Rezervacije" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Height="428" Width="928">
+                        <GroupBox Header="Karte" HorizontalAlignment="Left" Margin="396,10,0,0" VerticalAlignment="Top" Height="330" Width="445">
+                            <DataGrid HorizontalAlignment="Left" VerticalAlignment="Top" Height="233" Width="412" Margin="10,10,0,0" ItemsSource="{Binding ListaKartiZaDataGrid}" AutoGenerateColumns="False" SelectedItem="{Binding SelectedKarta}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Odrediste" Binding="{Binding odrediste}"/>
+                                    <DataGridTextColumn Header="Cijena" Binding="{Binding cijenaKarte}"/>
+                                    <DataGridTextColumn Header="Za datum" Binding="{Binding kartaZaDatum}"/>
+                                    <DataGridTextColumn Header="Na ime" Binding="{Binding naIme}"/>
+                                    <DataGridTextColumn Header="Odredište linije" Binding="{Binding kartaZaLiniju.odredisteLinije}"/>
+                                    <DataGridTextColumn Header="Vrijeme polaska" Binding="{Binding kartaZaLiniju.vrijemePolaska, StringFormat=hh:mm }"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </GroupBox>
+                    </GroupBox>
+                    <ComboBox HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" Margin="174,312,0,0" IsEditable="True" ItemsSource="{Binding ListaKorisnikaZaRezervaciju}" DisplayMemberPath="userId" SelectedItem="{Binding UserID}"/>
+                    <ComboBox HorizontalAlignment="Left" Margin="174,104,0,0" VerticalAlignment="Top" Width="120" IsEditable="True" ItemsSource="{Binding ListaKarti}" SelectedItem="{Binding NaIme}" DisplayMemberPath="naIme"/>
+                    <Label Content="Na ime:" HorizontalAlignment="Left" Margin="102,100,0,0" VerticalAlignment="Top"/>
+                    <Label Content="User ID:" HorizontalAlignment="Left" Margin="102,308,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Datum:" HorizontalAlignment="Left" Margin="104,349,0,0" VerticalAlignment="Top"/>
+                    <DatePicker HorizontalAlignment="Left" Margin="174,349,0,0" VerticalAlignment="Top" Width="120" SelectedDate="{Binding KorisnikNaDatum}"/>
+                    <Label Content="Datum:" HorizontalAlignment="Left" Margin="102,146,0,0" VerticalAlignment="Top"/>
+                    <DatePicker HorizontalAlignment="Left" Margin="174,148,0,0" VerticalAlignment="Top" Width="120" SelectedDate="{Binding NaDatum}"/>
+                    <Button Content="Naplati" HorizontalAlignment="Left" Margin="753,355,0,0" VerticalAlignment="Top" Width="85" Command="{Binding BtnNaplatiKartu}"/>
+
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
