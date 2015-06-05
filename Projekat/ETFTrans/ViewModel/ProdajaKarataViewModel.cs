@@ -127,7 +127,7 @@ namespace ETFTrans.ViewModel
                 if (_selectedLinija != value)
                 {
                     _selectedLinija = value;
-                    if(_selectedLinija.brojSlobodnihMjesta == 0)
+                    if(_selectedLinija != null && _selectedLinija.brojSlobodnihMjesta == 0)
                     {
                         MessageBox.Show("Zao nam je sva slobodna mjesta su zauzeta!");
                         _selectedLinija = null;
